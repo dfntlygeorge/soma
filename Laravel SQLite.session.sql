@@ -1,1 +1,1 @@
-SELECT * FROM meals
+SELECT * FROM users

@@ -9,5 +9,9 @@ Route::get('/', function () {
 });
 
 
-Route::get("/dashboard", [DashboardController::class, "index"]);
-Route::post("/meals", [MealController::class, "store"])->name("meals.store");
+Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard");
+Route::post("/meals/confirm", [MealController::class, "store"])->name("meals.confirm");
+Route::post("/meals/review", [MealController::class, "analyze"])->name("meals.review");
+Route::delete('/meals/{meal}', [MealController::class, 'destroy'])->name('meals.destroy');
+Route::get('/meals/{meal}', [MealController::class, 'edit'])->name('meals.edit');
+Route::put('/meals/{meal}', [MealController::class, 'update'])->name('meals.update');

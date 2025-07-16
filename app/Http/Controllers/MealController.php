@@ -15,29 +15,74 @@ class MealController extends Controller
         $this->macroAnalyzerService = $macroAnalyzerService;
     }
 
-    public function store(Request $request)
+    public function analyze(Request $request)
     {
+
         $request->validate([
-            'description' => 'required|string|max:1000',
+            'description' => 'required|string|max:400',
         ]);
 
         $description = $request->description;
 
-        // get macros
-
-
         $macros = $this->macroAnalyzerService->analyze($description);
 
-        Meal::create([
-            'user_id' => 1,
-            'description' => $macros['description'],
-            'total_calories' => $macros['total_calories'],
-            'protein' => $macros['protein'],
-            'carbs' => $macros['carbs'],
-            'fat' => $macros['fat'],
-            'date' => Carbon::today(),
+        return redirect()->route('dashboard')->with(['review_macros' => $macros, 'review_description' => $description]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'description' => 'required|string',
+            'total_calories' => 'required|numeric',
+            'protein' => 'required|numeric',
+            'carbs' => 'required|numeric',
+            'fat' => 'required|numeric',
         ]);
 
-        return redirect()->back()->with('success', 'Meal logges successfully');
+        $meal = Meal::create([
+            'user_id' => 1,
+            'description' => $data['description'],
+            'total_calories' => $data['total_calories'],
+            'protein' => $data['protein'],
+            'carbs' => $data['carbs'],
+            'fat' => $data['fat'],
+            'date' => now(),
+        ]);
+
+        return redirect()->route(
+            'dashboard'
+        )->with('success', 'Meal logged successfully!');
+    }
+
+    public function destroy(Meal $meal)
+    {
+        $meal->delete();
+
+        return redirect()->back()->with('success', 'Meal deleted successfully');
+    }
+
+    public function edit(Meal $meal)
+    {
+        return view("meals.edit", compact('meal'));
+    }
+    public function update(Request $request, Meal $meal)
+    {
+        $data = $request->validate([
+            'description' => 'required|string',
+            'total_calories' => 'required|numeric',
+            'protein' => 'required|numeric',
+            'carbs' => 'required|numeric',
+            'fat' => 'required|numeric',
+        ]);
+
+        $meal->update([
+            'description' => $data['description'],
+            'total_calories' => $data['total_calories'],
+            'protein' => $data['protein'],
+            'carbs' => $data['carbs'],
+            'fat' => $data['fat'],
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Meal edited successfully!');
     }
 }
