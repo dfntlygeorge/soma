@@ -39,9 +39,10 @@ class MealController extends Controller
             'carbs' => 'required|numeric',
             'fat' => 'required|numeric',
         ]);
+        $user_id = auth()->user()->id;
 
-        $meal = Meal::create([
-            'user_id' => 1,
+        Meal::create([
+            'user_id' => $user_id,
             'description' => $data['description'],
             'total_calories' => $data['total_calories'],
             'protein' => $data['protein'],
