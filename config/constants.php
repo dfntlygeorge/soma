@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'macro_prompt' => <<<PROMPT
+  'macro_prompt' => <<<PROMPT
 I ate %s. First, rewrite or clean up this description to be clear and professional (for example: "100g chicken pastil with 50g white rice").
 
 Then, estimate and calculate the total calories, protein, carbs, and fat content of this meal as accurately as possible.
@@ -29,5 +29,39 @@ Return **only** a pure JSON object with the following keys (no extra text, no ex
 }
 
 Make sure to include only the JSON object and nothing else (no code fences, no markdown, no extra explanation). This response will be parsed by a program.
+PROMPT,
+
+  'macro_recommendation_prompt' => <<<PROMPT
+Given the following user profile, estimate appropriate daily calorie, protein, carbs, and fat targets to help them achieve their goal. Use standard nutritional science guidelines.
+
+User Info:
+- Age: %s
+- Sex: %s
+- Weight: %s kg
+- Height: %s cm
+- Activity Level: %s
+- Goal: %s
+
+Return **only** a JSON object with the following keys (no extra explanation, no markdown):
+
+{
+  "calories": integer (daily calorie target),
+  "protein": integer (grams),
+  "carbs": integer (grams),
+  "fat": integer (grams)
+}
+
+⚠️ Important: All values must be plain integers only. No units, no descriptions.
+
+✅ Example:
+
+{
+  "calories": 2200,
+  "protein": 160,
+  "carbs": 250,
+  "fat": 70
+}
+
+Only return the JSON object — no comments, no markdown, no explanation.
 PROMPT,
 ];

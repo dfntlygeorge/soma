@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-screen flex items-center justify-center bg-base-200">
+    <div class="min-h-screen flex items-center justify-center bg-base-200 text-gray-200">
         <div class="card w-full max-w-md bg-base-100 shadow-xl">
             <div class="card-body">
                 <h2 class="card-title text-center justify-center mb-6">What's your goal?</h2>

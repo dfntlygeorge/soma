@@ -31,6 +31,7 @@ class User extends Authenticatable
         'daily_protein_target',
         'daily_carbs_target',
         'daily_fat_target',
+        'onboarded'
     ];
 
     /**

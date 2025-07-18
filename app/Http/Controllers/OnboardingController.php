@@ -1,15 +1,23 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\MacroRecommendationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class OnboardingController extends Controller
 {
+    private MacroRecommendationService $macroRecommendationService;
+
+    public function __construct(MacroRecommendationService $macroRecommendationService)
+    {
+        $this->macroRecommendationService = $macroRecommendationService;
+    }
+
     public function show(Request $request)
     {
         $step = $request->query("step", 1);
@@ -20,6 +28,68 @@ class OnboardingController extends Controller
         }
 
         return view("onboarding.step{$step}");
+    }
+
+    public function getRecommendations(Request $request)
+    {
+        try {
+            // Check if we already have cached recommendations
+            $cachedRecommendations = session('onboarding.macro_recommendations');
+
+            if ($cachedRecommendations) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $cachedRecommendations
+                ]);
+            }
+
+            // Get user info from session
+            $userInfo = [
+                'age' => session('onboarding.age'),
+                'sex' => session('onboarding.sex'),
+                'height' => session('onboarding.height'),
+                'weight' => session('onboarding.weight'),
+                'goal' => session('onboarding.goal'),
+                'activity_level' => session('onboarding.activity_level'),
+            ];
+
+            // Validate that we have all required data
+            foreach ($userInfo as $key => $value) {
+                if (empty($value)) {
+                    throw new \Exception("Missing required onboarding data: {$key}");
+                }
+            }
+
+            // Get recommendations from API
+            $recommendedMacros = $this->macroRecommendationService->getRecommendedMacros($userInfo);
+
+            // Store in session for future use
+            session()->put('onboarding.macro_recommendations', $recommendedMacros);
+
+            return response()->json([
+                'success' => true,
+                'data' => $recommendedMacros
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to get macro recommendations: ' . $e->getMessage());
+
+            // Return default values
+            $defaultMacros = [
+                'calories' => 2000,
+                'protein' => 150,
+                'carbs' => 200,
+                'fat' => 70
+            ];
+
+            // Store defaults in session
+            session()->put('onboarding.macro_recommendations', $defaultMacros);
+
+            return response()->json([
+                'success' => false,
+                'data' => $defaultMacros,
+                'message' => 'Unable to calculate personalized recommendations. Using default values.'
+            ]);
+        }
     }
 
     public function storeStep(Request $request)
@@ -61,17 +131,19 @@ class OnboardingController extends Controller
                 return redirect()->route('onboarding.show', ['step' => 4]);
 
             case 4:
-                $validated = $request->validate([
-                    'daily_calorie_target' => 'required|integer|min:1000|max:5000',
-                    'daily_protein_target' => 'required|integer|min:50|max:300',
-                    'daily_carbs_target' => 'required|integer|min:50|max:500',
-                    'daily_fat_target' => 'required|integer|min:20|max:200',
-                ]);
+                // Get macro recommendations from session
+                $macroRecommendations = session('onboarding.macro_recommendations');
 
-                session()->put('onboarding.daily_calorie_target', $validated['daily_calorie_target']);
-                session()->put('onboarding.daily_protein_target', $validated['daily_protein_target']);
-                session()->put('onboarding.daily_carbs_target', $validated['daily_carbs_target']);
-                session()->put('onboarding.daily_fat_target', $validated['daily_fat_target']);
+                if (!$macroRecommendations) {
+                    // If somehow we don't have recommendations, redirect back to step 4
+                    return redirect()->route('onboarding.show', ['step' => 4]);
+                }
+
+                // Store the macro targets in session
+                session()->put('onboarding.daily_calorie_target', $macroRecommendations['calories']);
+                session()->put('onboarding.daily_protein_target', $macroRecommendations['protein']);
+                session()->put('onboarding.daily_carbs_target', $macroRecommendations['carbs']);
+                session()->put('onboarding.daily_fat_target', $macroRecommendations['fat']);
 
                 return redirect()->route('onboarding.show', ['step' => 5]);
 
@@ -85,7 +157,7 @@ class OnboardingController extends Controller
                     // No logged-in user
                     abort(403, 'User not authenticated');
                 }
-                // You'll need to add name, email, password fields to step 1 or handle them separately
+
                 $user->update([
                     'age' => $onboardingData['age'],
                     'sex' => $onboardingData['sex'],
@@ -103,7 +175,7 @@ class OnboardingController extends Controller
                 // Clear onboarding session data
                 session()->forget('onboarding');
 
-                // Redirect to dashboard or login
+                // Redirect to dashboard
                 return redirect()->route('dashboard')->with('success', 'Onboarding completed successfully!');
 
             default:
