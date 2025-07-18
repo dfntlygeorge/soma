@@ -21,6 +21,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'age',
+        'sex',
+        'height',
+        'weight',
+        'goal',
+        'activity_level',
+        'daily_calorie_target',
+        'daily_protein_target',
+        'daily_carbs_target',
+        'daily_fat_target',
     ];
 
     /**
@@ -44,5 +54,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // custom functions
+
+    // In User.php
+    public function meals()
+    {
+        return $this->hasMany(Meal::class);
     }
 }

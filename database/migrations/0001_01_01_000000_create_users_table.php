@@ -17,6 +17,19 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            // Onboarding fields (all nullable)
+            $table->integer('age')->nullable();
+            $table->enum('sex', ['male', 'female'])->nullable();
+            $table->float('height')->nullable();
+            $table->float('weight')->nullable();
+            $table->enum('goal', ['lose', 'maintain', 'gain'])->nullable();
+            $table->enum('activity_level', ['sedentary', 'light', 'moderate', 'active', 'extra'])->nullable();
+            $table->integer('daily_calorie_target')->nullable();
+            $table->integer('daily_protein_target')->nullable();
+            $table->integer('daily_carbs_target')->nullable();
+            $table->integer('daily_fat_target')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

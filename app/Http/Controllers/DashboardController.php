@@ -14,10 +14,10 @@ class DashboardController extends Controller
 
     public function index(): View
     {
-        $user = User::first();
-        $meals = Meal::where('user_id', $user->id)
-            ->whereDate('date', Carbon::today())
-            ->get();
+
+        $user = auth()->user();
+        $meals = $user->meals()->whereDate('date', Carbon::today())->get();
+
         $total_calories = $meals->sum('total_calories');
         $total_protein = $meals->sum('protein');
         $total_carbs = $meals->sum('carbs');

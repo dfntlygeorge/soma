@@ -9,8 +9,7 @@
         </div>
         <div class="flex gap-2">
             {{-- Edit button --}}
-            <a href="{{ route('meals.edit', $meal->id) }}"
-                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm transition-colors">
+            <a href="{{ route('meals.edit', $meal->id) }}" class="btn btn-primary">
                 Edit
             </a>
             {{-- Delete button --}}
@@ -18,8 +17,7 @@
                 onsubmit="return confirm('Are you sure you want to delete this meal?');">
                 @method('DELETE')
                 @csrf
-                <button type="submit"
-                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition-colors">
+                <button type="submit" class="btn btn-secondary">
                     Delete
                 </button>
             </form>
