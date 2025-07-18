@@ -17,7 +17,15 @@ interface Guard
      * @return int|string|null
      */
     public function id();
+
+    /**
+     * Determine if the current user is authenticated.
+     *
+     * @return bool
+     */
+    public function check();
 }
+
 
 interface StatefulGuard
 {
@@ -34,6 +42,13 @@ interface StatefulGuard
      * @return int|string|null
      */
     public function id();
+
+    /**
+     * Determine if the current user is authenticated.
+     *
+     * @return bool
+     */
+    public function check();
 }
 
 interface Factory
@@ -51,4 +66,11 @@ interface Factory
      * @return int|string|null
      */
     public function id();
+
+    /**
+     * Determine if the current user is authenticated.
+     *
+     * @return bool
+     */
+    public function check();
 }

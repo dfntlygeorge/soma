@@ -97,6 +97,7 @@ class OnboardingController extends Controller
                     'daily_protein_target' => $onboardingData['daily_protein_target'],
                     'daily_carbs_target' => $onboardingData['daily_carbs_target'],
                     'daily_fat_target' => $onboardingData['daily_fat_target'],
+                    'onboarded' => true,
                 ]);
 
                 // Clear onboarding session data
