@@ -6,6 +6,7 @@ use App\Models\Meal;
 use App\Services\MacroAnalyzerService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MealController extends Controller
 {
@@ -84,5 +85,12 @@ class MealController extends Controller
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Meal edited successfully!');
+    }
+
+    public function history()
+    {
+        $user = Auth::user();
+        $meals = Meal::where('user_id', $user->id)->get();
+        return view("meals.history", compact('meals'));
     }
 }

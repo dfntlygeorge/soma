@@ -4,20 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Meal;
 use App\Models\User;
-use App\Services\MacroAnalyzerService;
 use Carbon\Carbon;
-use Gemini\Laravel\Facades\Gemini;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
 
-    private MacroAnalyzerService $macroService;
-    public function __construct(MacroAnalyzerService $macroService)
-    {
-        $this->macroService = $macroService;
-    }
     // Show dashboard page
 
     public function index(): View

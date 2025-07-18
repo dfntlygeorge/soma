@@ -1,5 +1,5 @@
 {{-- resources/views/meals/edit.blade.php --}}
-<x-layout>
+<x-app-layout>
     <x-slot name="title">Edit Meal</x-slot>
 
     <div class="min-h-screen bg-gray-50 py-8">
@@ -136,4 +136,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-app-layout>
