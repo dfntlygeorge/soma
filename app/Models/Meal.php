@@ -18,5 +18,6 @@ class Meal extends Model
         'carbs',
         'fat',
         'date',
+        'category'
     ];
 }

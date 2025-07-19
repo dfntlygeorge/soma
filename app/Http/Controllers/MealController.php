@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MealHelper;
 use App\Models\Meal;
 use App\Services\MacroAnalyzerService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\ChartService;
 
 class MealController extends Controller
 {
@@ -88,10 +90,24 @@ class MealController extends Controller
         return redirect()->route('dashboard')->with('success', 'Meal edited successfully!');
     }
 
-    public function history()
+    public function history(ChartService $chartService)
     {
-        $user = Auth::user();
-        $meals = Meal::where('user_id', $user->id)->get();
-        return view("meals.history", compact('meals'));
+        // Get user's meals
+        $meals = auth()->user()->meals()->get();
+
+        // Calculate daily averages using helper function (no more duplicate logic!)
+        $averages = MealHelper::calculateDailyAverages($meals);
+
+        // Get chart data
+        $chart = $chartService->weeklyCaloriesChart($meals);
+
+        // Get formatted current week range
+        $weekRange = MealHelper::getCurrentWeekRange();
+
+        return view("meals.history", compact(
+            'meals',
+            'chart',
+            'weekRange'
+        ) + $averages); // This spreads averageCalories, averageProtein, daysWithMeals, totalCalories, totalProtein
     }
 }
