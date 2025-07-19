@@ -36,6 +36,7 @@ class MealController extends Controller
     {
         $data = $request->validate([
             'description' => 'required|string',
+            'meal_type' => 'required|in:breakfast,lunch,dinner,snack',
             'total_calories' => 'required|numeric',
             'protein' => 'required|numeric',
             'carbs' => 'required|numeric',
@@ -46,6 +47,7 @@ class MealController extends Controller
         Meal::create([
             'user_id' => $user_id,
             'description' => $data['description'],
+            'category' => $data['meal_type'],
             'total_calories' => $data['total_calories'],
             'protein' => $data['protein'],
             'carbs' => $data['carbs'],
@@ -104,10 +106,18 @@ class MealController extends Controller
         // Get formatted current week range
         $weekRange = MealHelper::getCurrentWeekRange();
 
+        // data we need, total calories, carbs, protein, and fat for TODAY. we also need the data for today FORMATTED, we actually need to pass the meals itself.
+        $todayMacroSums = MealHelper::getSumsForDate($meals);
+
+        $meals_today = $meals->filter(function ($meal) {
+            return Carbon::parse($meal->date)->isToday(); // or $meal->created_at if using that
+        });
+
         return view("meals.history", compact(
             'meals',
             'chart',
-            'weekRange'
-        ) + $averages); // This spreads averageCalories, averageProtein, daysWithMeals, totalCalories, totalProtein
+            'weekRange',
+            'meals_today'
+        ) + $averages + $todayMacroSums); // This spreads averageCalories, averageProtein, daysWithMeals, totalCalories, totalProtein
     }
 }

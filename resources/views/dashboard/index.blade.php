@@ -104,6 +104,17 @@
                                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
 
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 font-medium mb-2">Meal Type</label>
+                                    <select name="meal_type"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <option value="breakfast">Breakfast</option>
+                                        <option value="lunch">Lunch</option>
+                                        <option value="dinner">Dinner</option>
+                                        <option value="snack">Snack</option>
+                                    </select>
+                                </div>
+
                                 <input type="hidden" name="total_calories" value="{{ $macros['total_calories'] }}">
                                 <input type="hidden" name="protein" value="{{ $macros['protein'] }}">
                                 <input type="hidden" name="carbs" value="{{ $macros['carbs'] }}">

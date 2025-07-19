@@ -132,4 +132,27 @@ class MealHelper
     {
         return self::formatDateRange(now()->startOfWeek(), now()->endOfWeek());
     }
+
+    /**
+     * Get total calories, protein, carbs, and fat for a specific date
+     *
+     * @param \Illuminate\Support\Collection $meals
+     * @param \Carbon\Carbon|string|null $date
+     * @return array
+     */
+    public static function getSumsForDate($meals, $date = null)
+    {
+        $date = $date ? Carbon::parse($date)->format('Y-m-d') : now()->format('Y-m-d');
+
+        $filtered = $meals->filter(function ($meal) use ($date) {
+            return Carbon::parse($meal->date)->format('Y-m-d') === $date;
+        });
+
+        return [
+            'calories' => $filtered->sum('total_calories'),
+            'protein' => $filtered->sum('protein'),
+            'carbs' => $filtered->sum('carbs'),
+            'fat' => $filtered->sum('fat'),
+        ];
+    }
 }
