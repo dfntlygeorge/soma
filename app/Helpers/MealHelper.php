@@ -155,4 +155,49 @@ class MealHelper
             'fat' => $filtered->sum('fat'),
         ];
     }
+
+    /**
+     * Get daily meal data for the last N days
+     *
+     * @param \Illuminate\Support\Collection $meals
+     * @param int $days Number of days to get (default 3)
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getDailyMealData($meals, $days = 3)
+    {
+        $dailyData = collect();
+
+        for ($i = 0; $i < $days; $i++) {
+            $date = now()->subDays($i);
+            $dateString = $date->format('Y-m-d');
+
+            // Filter meals for this specific date
+            $mealsForDay = $meals->filter(function ($meal) use ($dateString) {
+                return Carbon::parse($meal->date)->format('Y-m-d') === $dateString;
+            });
+
+            // Get macro sums for this date
+            $macroSums = self::getSumsForDate($meals, $date);
+
+            // Determine day label
+            $dayLabel = match ($i) {
+                0 => 'Today',
+                1 => 'Yesterday',
+                default => $date->format('l') // Day name (Monday, Tuesday, etc.)
+            };
+
+            $dailyData->push([
+                'date' => $date,
+                'date_formatted' => $date->format('l, F j, Y'),
+                'day_label' => $dayLabel,
+                'meals' => $mealsForDay,
+                'macro_sums' => $macroSums,
+                'meal_count' => $mealsForDay->count(),
+                'has_data' => $macroSums['calories'] > 0,
+                'day_index' => $i // 0 = today, 1 = yesterday, etc.
+            ]);
+        }
+
+        return $dailyData;
+    }
 }

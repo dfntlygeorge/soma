@@ -92,12 +92,16 @@ class MealController extends Controller
         return redirect()->route('dashboard')->with('success', 'Meal edited successfully!');
     }
 
-    public function history(ChartService $chartService)
+
+    public function history(ChartService $chartService, Request $request)
     {
+        // Get days parameter from URL (default 3, max 14)
+        $days = min((int) $request->get('days', 3), 14);
+
         // Get user's meals
         $meals = auth()->user()->meals()->get();
 
-        // Calculate daily averages using helper function (no more duplicate logic!)
+        // Calculate daily averages using helper function
         $averages = MealHelper::calculateDailyAverages($meals);
 
         // Get chart data
@@ -106,36 +110,28 @@ class MealController extends Controller
         // Get formatted current week range
         $weekRange = MealHelper::getCurrentWeekRange();
 
-        // data we need, total calories, carbs, protein, and fat for TODAY. we also need the data for today FORMATTED, we actually need to pass the meals itself.
+        // Get daily meal data for the requested number of days
+        $dailyMealData = MealHelper::getDailyMealData($meals, $days);
+
+        // Get today's macro sums (for backwards compatibility if needed elsewhere)
         $todayMacroSums = MealHelper::getSumsForDate($meals);
 
-        $meals_today = $meals->filter(function ($meal) {
-            return Carbon::parse($meal->date)->isToday(); // or $meal->created_at if using that
-        });
+        // Calculate if there are more days available to load
+        $oldestMealDate = $meals->min('date');
+        $canLoadMore = $days < 14 && $oldestMealDate &&
+            Carbon::parse($oldestMealDate)->diffInDays(now()) >= $days;
 
-        // get the last two previous meals the yesterday and yesterday of yesterday
-        $meals_yesterday = $meals->filter(function ($meal) {
-            return Carbon::parse($meal->date)->isYesterday();
-        });
-        $yesterday_macro_sums = MealHelper::getSumsForDate($meals_yesterday, Carbon::yesterday());
-
-
-        $meals_two_days_ago = $meals->filter(function ($meal) {
-            return Carbon::parse($meal->date)->isSameDay(Carbon::now()->subDays(2));
-        });
-        $two_days_ago_macro_sums = MealHelper::getSumsForDate($meals_two_days_ago, Carbon::now()->subDays(2));
-
-
+        // Calculate next load amount (increment by 3 days)
+        $nextDays = min($days + 3, 14);
 
         return view("meals.history", compact(
             'meals',
             'chart',
             'weekRange',
-            'meals_today',
-            'meals_yesterday',
-            'meals_two_days_ago',
-            'yesterday_macro_sums',
-            'two_days_ago_macro_sums',
-        ) + $averages + $todayMacroSums); // This spreads averageCalories, averageProtein, daysWithMeals, totalCalories, totalProtein
+            'dailyMealData',
+            'days',
+            'canLoadMore',
+            'nextDays'
+        ) + $averages + $todayMacroSums);
     }
 }
