@@ -113,11 +113,29 @@ class MealController extends Controller
             return Carbon::parse($meal->date)->isToday(); // or $meal->created_at if using that
         });
 
+        // get the last two previous meals the yesterday and yesterday of yesterday
+        $meals_yesterday = $meals->filter(function ($meal) {
+            return Carbon::parse($meal->date)->isYesterday();
+        });
+        $yesterday_macro_sums = MealHelper::getSumsForDate($meals_yesterday, Carbon::yesterday());
+
+
+        $meals_two_days_ago = $meals->filter(function ($meal) {
+            return Carbon::parse($meal->date)->isSameDay(Carbon::now()->subDays(2));
+        });
+        $two_days_ago_macro_sums = MealHelper::getSumsForDate($meals_two_days_ago, Carbon::now()->subDays(2));
+
+
+
         return view("meals.history", compact(
             'meals',
             'chart',
             'weekRange',
-            'meals_today'
+            'meals_today',
+            'meals_yesterday',
+            'meals_two_days_ago',
+            'yesterday_macro_sums',
+            'two_days_ago_macro_sums',
         ) + $averages + $todayMacroSums); // This spreads averageCalories, averageProtein, daysWithMeals, totalCalories, totalProtein
     }
 }

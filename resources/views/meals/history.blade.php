@@ -124,5 +124,105 @@
                 </div>
 
             </div>
+            <!-- Yesterday -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
+                <!-- Date Header -->
+                <div class="bg-gray-750 px-5 py-4 border-b border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-medium text-gray-100">Yesterday</h3>
+                            <p class="text-sm text-gray-400">{{ \Carbon\Carbon::yesterday()->format('l, F j, Y') }}
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-semibold text-olive-400">{{ $yesterday_macro_sums['calories'] }}
+                                cal
+                            </div>
+                            <div class="text-xs text-gray-400">Total</div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Macro Summary -->
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <div class="text-lg font-semibold text-red-400">{{ $yesterday_macro_sums['carbs'] }}g</div>
+                            <div class="text-xs text-gray-400">Carbs</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-semibold text-blue-400">{{ $yesterday_macro_sums['protein'] }}g
+                            </div>
+                            <div class="text-xs text-gray-400">Protein</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-semibold text-yellow-400">{{ $yesterday_macro_sums['fat'] }}g
+                            </div>
+                            <div class="text-xs text-gray-400">Fat</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collapsed Meals (can be expanded) -->
+                <div class="p-4">
+                    <button class="w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-300">
+                        <span>3 meals logged</span>
+                        <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- July 17 -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
+                <!-- Date Header -->
+                <div class="bg-gray-750 px-5 py-4 border-b border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-medium text-gray-100">Thursday</h3>
+                            <p class="text-sm text-gray-400">
+                                {{ \Carbon\Carbon::now()->subdays(2)->format('l, F j, Y') }}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-semibold text-olive-400">
+                                {{ $two_days_ago_macro_sums['calories'] }} cal</div>
+                            <div class="text-xs text-gray-400">Total</div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Macro Summary -->
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center">
+                            <div class="text-lg font-semibold text-red-400"> {{ $two_days_ago_macro_sums['carbs'] }}g
+                            </div>
+                            <div class="text-xs text-gray-400">Carbs</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-semibold text-blue-400">
+                                {{ $two_days_ago_macro_sums['protein'] }}g</div>
+                            <div class="text-xs text-gray-400">Protein</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-semibold text-yellow-400"> {{ $two_days_ago_macro_sums['fat'] }}g
+                            </div>
+                            <div class="text-xs text-gray-400">Fat</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collapsed Meals -->
+                <div class="p-4">
+                    <button class="w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-300">
+                        <span>4 meals logged</span>
+                        <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
+    </div>
 </x-app-layout>
