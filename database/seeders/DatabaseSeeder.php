@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\SavedMeal;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,6 @@ class DatabaseSeeder extends Seeder
    */
   public function run(): void
   {
-    User::query()->delete();
+    SavedMeal::query()->delete(); // will set saved_meal_id to null on meals
   }
 }

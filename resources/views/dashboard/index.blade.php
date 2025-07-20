@@ -124,11 +124,11 @@
                     </div>
                 </div>
 
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                     @forelse ($meals as $meal)
                         <x-dashboard.meal-card :meal="$meal" />
                     @empty
-                        <div class="text-center py-16">
+                        <div class="col-span-full text-center py-16">
                             <div
                                 class="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor"

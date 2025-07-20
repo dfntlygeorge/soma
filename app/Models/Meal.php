@@ -18,6 +18,7 @@ class Meal extends Model
         'carbs',
         'fat',
         'date',
-        'category'
+        'category',
+        'saved_meal_id'
     ];
 }
