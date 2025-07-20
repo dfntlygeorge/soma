@@ -50,7 +50,7 @@ class ChartService
                     "pointHoverBackgroundColor" => "#aab069", // olive-400
                     "pointHoverBorderColor" => "#767a39", // olive-600
                     "data" => $caloriesData,
-                    "fill" => true,
+                    "fill" => false,
                     "tension" => 0.4 // smooth curves
                 ],
                 [

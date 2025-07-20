@@ -1,64 +1,116 @@
 <x-app-layout>
     <x-slot name="title">Dashboard</x-slot>
 
-    <div class="min-h-screen bg-gray-50 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-gray-900 text-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
             {{-- Header --}}
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">Today's Macros</h1>
-                <p class="text-gray-600">Track your daily nutrition goals</p>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-100 mb-2">Today's Macros</h1>
+                        <p class="text-gray-400">Track your daily nutrition goals</p>
+                    </div>
+                    <div class="text-olive-400">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                    </div>
+                </div>
             </div>
 
             {{-- Success Message --}}
             @if (session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-                    {{ session('success') }}
+                <div
+                    class="bg-olive-900/50 border border-olive-600 text-olive-200 px-4 py-3 rounded-lg mb-6 backdrop-blur-sm">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-olive-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ session('success') }}
+                    </div>
                 </div>
             @endif
 
             {{-- Macro target cards --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 @foreach ($daily_macros_target as $macro)
                     <x-macro-card :macro="$macro" />
                 @endforeach
             </div>
 
             {{-- Add new meal section --}}
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-                <h2 class="text-xl font-semibold text-gray-900 mb-4">Log New Meal</h2>
-                <form action="{{ route('meals.review') }}" method="POST" class="flex gap-4">
+            <div class="bg-gray-800 border border-gray-700 rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 bg-olive-600 rounded-lg flex items-center justify-center mr-3">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-100">Log New Meal</h2>
+                </div>
+
+                <form action="{{ route('meals.review') }}" method="POST" class="flex flex-col sm:flex-row gap-4">
                     @csrf
                     <input type="text" name="description" placeholder="Example: 100g chicken, 1 cup rice"
-                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        class="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-olive-500 focus:border-olive-500 placeholder-gray-400 transition-colors"
                         required>
-                    <button type="submit" class="btn btn-primary">
-                        Log Meal
+                    <button type="submit"
+                        class="bg-olive-600 hover:bg-olive-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 focus:ring-2 focus:ring-olive-500 focus:ring-offset-2 focus:ring-offset-gray-800 whitespace-nowrap">
+                        <span class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                            Log Meal
+                        </span>
                     </button>
                 </form>
             </div>
 
             {{-- Gemini response display --}}
             @if (!empty($macros))
-                <div class="bg-green-50 border border-green-200 rounded-xl p-6 mb-8">
-                    <h2 class="text-xl font-semibold text-green-800 mb-4">New Meal Analysis</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-green-700"><strong>Description:</strong>
-                                {{ $macros['description'] ?? 'N/A' }}</p>
+                <div
+                    class="bg-gradient-to-r from-olive-900/30 to-olive-800/30 border border-olive-600/50 rounded-xl p-6 mb-8 backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-olive-600 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
                         </div>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div class="bg-white p-3 rounded-lg">
-                                <span class="text-green-600">Calories:</span> {{ $macros['total_calories'] ?? 'N/A' }}
+                        <h2 class="text-xl font-semibold text-olive-200">New Meal Analysis</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-gray-800/50 rounded-lg p-4">
+                            <p class="text-olive-200">
+                                <span class="font-medium text-olive-100">Description:</span>
+                                <span class="ml-2">{{ $macros['description'] ?? 'N/A' }}</span>
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                            <div class="bg-gray-800/50 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-olive-300">{{ $macros['total_calories'] ?? 'N/A' }}
+                                </div>
+                                <div class="text-sm text-gray-400">Calories</div>
                             </div>
-                            <div class="bg-white p-3 rounded-lg">
-                                <span class="text-green-600">Protein:</span> {{ $macros['protein'] ?? 'N/A' }}g
+                            <div class="bg-gray-800/50 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-olive-300">{{ $macros['protein'] ?? 'N/A' }}g</div>
+                                <div class="text-sm text-gray-400">Protein</div>
                             </div>
-                            <div class="bg-white p-3 rounded-lg">
-                                <span class="text-green-600">Carbs:</span> {{ $macros['carbs'] ?? 'N/A' }}g
+                            <div class="bg-gray-800/50 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-olive-300">{{ $macros['carbs'] ?? 'N/A' }}g</div>
+                                <div class="text-sm text-gray-400">Carbs</div>
                             </div>
-                            <div class="bg-white p-3 rounded-lg">
-                                <span class="text-green-600">Fat:</span> {{ $macros['fat'] ?? 'N/A' }}g
+                            <div class="bg-gray-800/50 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-olive-300">{{ $macros['fat'] ?? 'N/A' }}g</div>
+                                <div class="text-sm text-gray-400">Fat</div>
                             </div>
                         </div>
                     </div>
@@ -67,16 +119,36 @@
 
             {{-- Meals section --}}
             <div class="mb-8">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-6">Logged Meals</h2>
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-100">Logged Meals</h2>
+                    <div class="text-sm text-gray-400">
+                        {{ count($meals ?? []) }} {{ Str::plural('meal', count($meals ?? [])) }} today
+                    </div>
+                </div>
 
-                <div class="space-y-6">
+                <div class="space-y-4">
                     @forelse ($meals as $meal)
                         <x-meal-card :meal="$meal" />
                     @empty
-                        <div class="text-center py-12">
-                            <div class="text-gray-400 text-6xl mb-4">🍽️</div>
-                            <p class="text-gray-500 text-lg">No meals logged yet.</p>
-                            <p class="text-gray-400">Start tracking your nutrition by adding your first meal above!</p>
+                        <div class="text-center py-16">
+                            <div
+                                class="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a8.949 8.949 0 008.354-5.646z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-medium text-gray-300 mb-2">No meals logged yet</h3>
+                            <p class="text-gray-500 mb-4">Start tracking your nutrition by adding your first meal above!
+                            </p>
+                            <div class="inline-flex items-center text-olive-400 text-sm">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                                Track your progress
+                            </div>
                         </div>
                     @endforelse
                 </div>
@@ -90,28 +162,38 @@
                 @endphp
 
                 <div id="review-modal"
-                    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-                    <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+                    class="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+                    <div
+                        class="bg-gray-800 border border-gray-700 rounded-xl shadow-2xl w-full max-w-md transform transition-all">
                         <div class="p-6">
-                            <h2 class="text-2xl font-bold text-gray-900 mb-6">Review Your Meal</h2>
+                            <div class="flex items-center mb-6">
+                                <div class="w-10 h-10 bg-olive-600 rounded-lg flex items-center justify-center mr-3">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h2 class="text-2xl font-bold text-gray-100">Review Your Meal</h2>
+                            </div>
 
-                            <form action="{{ route('meals.confirm') }}" method="POST">
+                            <form action="{{ route('meals.confirm') }}" method="POST" class="space-y-4">
                                 @csrf
 
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 font-medium mb-2">Description</label>
+                                <div>
+                                    <label class="block text-gray-300 font-medium mb-2">Description</label>
                                     <input type="text" name="description" value="{{ $macros['description'] }}"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-olive-500 focus:border-olive-500 transition-colors">
                                 </div>
 
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 font-medium mb-2">Meal Type</label>
+                                <div>
+                                    <label class="block text-gray-300 font-medium mb-2">Meal Type</label>
                                     <select name="meal_type"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                        <option value="breakfast">Breakfast</option>
-                                        <option value="lunch">Lunch</option>
-                                        <option value="dinner">Dinner</option>
-                                        <option value="snack">Snack</option>
+                                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-olive-500 focus:border-olive-500 transition-colors">
+                                        <option value="breakfast">🌅 Breakfast</option>
+                                        <option value="lunch">☀️ Lunch</option>
+                                        <option value="dinner">🌙 Dinner</option>
+                                        <option value="snack">🍎 Snack</option>
                                     </select>
                                 </div>
 
@@ -120,35 +202,52 @@
                                 <input type="hidden" name="carbs" value="{{ $macros['carbs'] }}">
                                 <input type="hidden" name="fat" value="{{ $macros['fat'] }}">
 
-                                <div class="bg-gray-50 rounded-lg p-4 mb-6">
-                                    <h3 class="font-semibold text-gray-900 mb-3">Nutritional Information</h3>
-                                    <div class="grid grid-cols-2 gap-4 text-sm">
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Calories:</span>
-                                            <span class="font-semibold">{{ $macros['total_calories'] }}kcal</span>
+                                <div class="bg-gray-700/50 rounded-lg p-4">
+                                    <h3 class="font-semibold text-gray-200 mb-3 flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-olive-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                        </svg>
+                                        Nutritional Information
+                                    </h3>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="bg-gray-800 p-3 rounded-lg">
+                                            <div class="text-xs text-gray-400 uppercase tracking-wide">Calories</div>
+                                            <div class="text-lg font-bold text-olive-300">
+                                                {{ $macros['total_calories'] }}kcal</div>
                                         </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Protein:</span>
-                                            <span class="font-semibold">{{ $macros['protein'] }}g</span>
+                                        <div class="bg-gray-800 p-3 rounded-lg">
+                                            <div class="text-xs text-gray-400 uppercase tracking-wide">Protein</div>
+                                            <div class="text-lg font-bold text-olive-300">{{ $macros['protein'] }}g
+                                            </div>
                                         </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Carbs:</span>
-                                            <span class="font-semibold">{{ $macros['carbs'] }}g</span>
+                                        <div class="bg-gray-800 p-3 rounded-lg">
+                                            <div class="text-xs text-gray-400 uppercase tracking-wide">Carbs</div>
+                                            <div class="text-lg font-bold text-olive-300">{{ $macros['carbs'] }}g
+                                            </div>
                                         </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Fat:</span>
-                                            <span class="font-semibold">{{ $macros['fat'] }}g</span>
+                                        <div class="bg-gray-800 p-3 rounded-lg">
+                                            <div class="text-xs text-gray-400 uppercase tracking-wide">Fat</div>
+                                            <div class="text-lg font-bold text-olive-300">{{ $macros['fat'] }}g</div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="flex gap-3">
+                                <div class="flex gap-3 pt-4">
                                     <button type="submit"
-                                        class="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                                        Confirm & Save
+                                        class="flex-1 bg-olive-600 hover:bg-olive-700 text-white px-4 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 focus:ring-2 focus:ring-olive-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+                                        <span class="flex items-center justify-center">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            Confirm & Save
+                                        </span>
                                     </button>
                                     <a href="{{ route('dashboard') }}"
-                                        class="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium text-center transition-colors">
+                                        class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-lg font-medium text-center transition-all duration-200 transform hover:scale-105 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800">
                                         Cancel
                                     </a>
                                 </div>

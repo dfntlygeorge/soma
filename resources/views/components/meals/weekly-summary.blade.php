@@ -1,6 +1,6 @@
 @props(['weekRange', 'averageCalories', 'averageProtein', 'chart'])
 
-<div class="px-4 py-4 space-y-6">
+<div class="py-4 space-y-6">
     <div class="bg-gray-800 rounded-xl p-5 border border-gray-700">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-medium text-gray-100">This Week</h2>

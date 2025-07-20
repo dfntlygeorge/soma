@@ -1,6 +1,6 @@
 @props(['dailyMealData', 'canLoadMore', 'nextDays', 'days'])
 
-<div class="space-y-4 px-4 py-4">
+<div class="space-y-4 py-4">
     {{-- Daily Cards --}}
     @forelse($dailyMealData as $dayData)
         <x-meals.daily-card :dayData="$dayData" />

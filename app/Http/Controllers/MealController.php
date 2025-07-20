@@ -74,11 +74,12 @@ class MealController extends Controller
     public function update(Request $request, Meal $meal)
     {
         $data = $request->validate([
-            'description' => 'required|string',
-            'total_calories' => 'required|numeric',
-            'protein' => 'required|numeric',
-            'carbs' => 'required|numeric',
-            'fat' => 'required|numeric',
+            'description' => 'required|string|max:255',
+            'total_calories' => 'required|numeric|min:0',
+            'protein' => 'required|numeric|min:0',
+            'carbs' => 'required|numeric|min:0',
+            'fat' => 'required|numeric|min:0',
+            'meal_type' => 'required|in:breakfast,lunch,dinner,snack'
         ]);
 
         $meal->update([
@@ -87,6 +88,7 @@ class MealController extends Controller
             'protein' => $data['protein'],
             'carbs' => $data['carbs'],
             'fat' => $data['fat'],
+            'category' => $data['meal_type'], // Map meal_type to category
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Meal edited successfully!');

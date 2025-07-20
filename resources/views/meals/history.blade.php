@@ -1,25 +1,27 @@
 <x-app-layout>
-    <div class="bg-gray-900 text-gray-100 min-h-screen">
-        {{-- Header --}}
-        <div class="bg-gray-800 border-b border-gray-700 px-4 py-4 sticky top-0 z-10">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <h1 class="text-xl font-semibold text-gray-100">My Meals History</h1>
+    <x-slot name='title'>Meal History</x-slot>
+    <div class="min-h-screen bg-gray-900 text-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {{-- Header --}}
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-100 mb-2">Meal History</h1>
+                        <p class="text-gray-400">Review your past meals and nutrition data</p>
+                    </div>
+                    <div class="text-olive-400">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                    </div>
                 </div>
-                <button class="text-olive-400 hover:text-olive-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
-                        </path>
-                    </svg>
-                </button>
             </div>
+            {{-- Weekly Summary Component --}}
+            <x-meals.weekly-summary :weekRange="$weekRange" :averageCalories="$averageCalories" :averageProtein="$averageProtein" :chart="$chart" />
+
+            {{-- Daily History Section Component --}}
+            <x-meals.daily-history :dailyMealData="$dailyMealData" :canLoadMore="$canLoadMore" :nextDays="$nextDays" :days="$days" />
         </div>
-
-        {{-- Weekly Summary Component --}}
-        <x-meals.weekly-summary :weekRange="$weekRange" :averageCalories="$averageCalories" :averageProtein="$averageProtein" :chart="$chart" />
-
-        {{-- Daily History Section Component --}}
-        <x-meals.daily-history :dailyMealData="$dailyMealData" :canLoadMore="$canLoadMore" :nextDays="$nextDays" :days="$days" />
     </div>
 </x-app-layout>
