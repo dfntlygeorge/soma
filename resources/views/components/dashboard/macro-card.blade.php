@@ -2,21 +2,25 @@
 @props(['macro'])
 
 @php
+
     $consumed = $macro['daily_target'] - $macro['left'];
+    $left = $macro['daily_target'] - $consumed;
     $percentage = $macro['daily_target'] > 0 ? min(100, ($consumed / $macro['daily_target']) * 100) : 0;
     $strokeDasharray = 2 * 3.14159 * 42; // circumference for r=42 (slightly smaller for better proportions)
     $strokeDashoffset = $strokeDasharray - ($strokeDasharray * $percentage) / 100;
-
+    // dd($percentage && $isCalorieCard);
     // Determine status and colors
     $isOverTarget = $consumed > $macro['daily_target'];
     $isNearTarget = $percentage >= 85 && !$isOverTarget;
 
+    $isCalorieCard = $macro['label'] === 'Calories';
+
     // Dynamic colors based on macro type and status
     $progressColor = match ($macro['label']) {
         'Calories' => $isOverTarget ? '#ef4444' : ($isNearTarget ? '#f59e0b' : '#10b981'),
-        'Protein' => $isOverTarget ? '#ef4444' : ($isNearTarget ? '#f59e0b' : '#3b82f6'),
-        'Carbs' => $isOverTarget ? '#ef4444' : ($isNearTarget ? '#f59e0b' : '#22c55e'),
-        'Fat' => $isOverTarget ? '#ef4444' : ($isNearTarget ? '#f59e0b' : '#8b5cf6'),
+        'Protein' => $isNearTarget ? '#f59e0b' : '#3b82f6',
+        'Carbs' => $isNearTarget ? '#f59e0b' : '#22c55e',
+        'Fat' => $isNearTarget ? '#f59e0b' : '#8b5cf6',
         default => '#10b981',
     };
 
@@ -75,7 +79,14 @@
             {{-- Center content --}}
             <div class="absolute inset-0 flex flex-col items-center justify-center">
                 <span
-                    class="text-lg font-bold {{ $isOverTarget ? 'text-red-400' : ($isNearTarget ? 'text-yellow-400' : 'text-olive-300') }}">
+                    class="text-lg font-bold
+                 {{ $percentage == 100
+                     ? 'text-green-400'
+                     : ($isOverTarget && $isCalorieCard
+                         ? 'text-red-400'
+                         : ($isNearTarget
+                             ? 'text-yellow-400'
+                             : 'text-olive-300')) }}">
                     {{ round($percentage) }}%
                 </span>
                 <span class="text-xs text-gray-500 mt-1">complete</span>
@@ -87,7 +98,8 @@
             {{-- Current consumption --}}
             <div class="flex items-center justify-between bg-gray-700/30 rounded-lg px-3 py-2">
                 <span class="text-xs text-gray-400">Consumed:</span>
-                <span class="text-sm font-bold {{ $isOverTarget ? 'text-red-400' : 'text-olive-300' }}">
+                <span
+                    class="text-sm font-bold {{ $isOverTarget && $isCalorieCard ? 'text-red-400' : 'text-olive-300' }}">
                     {{ $consumed }} {{ $macro['unit'] }}
                 </span>
             </div>
@@ -102,22 +114,29 @@
                 <div class="w-px h-8 bg-gray-600 mx-3"></div>
                 <div class="text-center flex-1">
                     <div class="text-xs text-gray-500">{{ $macro['left'] > 0 ? 'Left' : 'Over' }}</div>
-                    <div class="text-sm font-semibold {{ $macro['left'] > 0 ? 'text-gray-300' : 'text-red-400' }}">
+                    <div
+                        class="text-sm font-semibold {{ $macro['left'] < 0 && $isCalorieCard ? 'text-red-400' : 'text-gray-300' }}">
                         {{ abs($macro['left']) }} {{ $macro['unit'] }}
                     </div>
                 </div>
             </div>
 
             {{-- Status indicator --}}
-            @if ($isOverTarget)
+            @if ($percentage == 100)
+                <div class="bg-green-900/30 border border-green-600/30 rounded-lg px-2 py-1">
+                    <span class="text-xs text-green-400 font-medium">✅ Goal reached!</span>
+                </div>
+            @elseif ($isOverTarget && $isCalorieCard)
                 <div class="bg-red-900/30 border border-red-600/30 rounded-lg px-2 py-1">
                     <span class="text-xs text-red-400 font-medium">⚠️ Over target</span>
                 </div>
-            @elseif($isNearTarget)
+            @elseif ($isNearTarget)
                 <div class="bg-yellow-900/30 border border-yellow-600/30 rounded-lg px-2 py-1">
-                    <span class="text-xs text-yellow-400 font-medium">🎯 Almost there!</span>
+                    <span class="text-xs text-yellow-400 font-medium">
+                        {{ $isCalorieCard ? '🥒 Ang galing mo boss' : '🎯 Almost there!' }}
+                    </span>
                 </div>
-            @elseif($percentage >= 50)
+            @elseif ($percentage >= 50)
                 <div class="bg-olive-900/30 border border-olive-600/30 rounded-lg px-2 py-1">
                     <span class="text-xs text-olive-400 font-medium">📈 Good progress</span>
                 </div>

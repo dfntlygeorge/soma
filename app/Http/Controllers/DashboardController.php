@@ -24,28 +24,28 @@ class DashboardController extends Controller
         $total_fat = $meals->sum('fat');
         $daily_macros_target = [
             [
-                'label' => 'Calorie',
+                'label' => 'Calories',
                 'daily_target' => $user->daily_calorie_target,
                 'unit' => 'kcal',
-                'left' => max($user->daily_calorie_target - $total_calories, 0),
+                'left' => $user->daily_calorie_target - $total_calories,
             ],
             [
                 'label' => 'Protein',
                 'daily_target' => $user->daily_protein_target,
                 'unit' => 'g',
-                'left' => max($user->daily_protein_target - $total_protein, 0)
+                'left' => $user->daily_protein_target - $total_protein,
             ],
             [
                 'label' => 'Carbs',
                 'daily_target' => $user->daily_carbs_target,
                 'unit' => 'g',
-                'left' => max($user->daily_carbs_target - $total_carbs, 0)
+                'left' => $user->daily_carbs_target - $total_carbs,
             ],
             [
                 'label' => 'Fat',
                 'daily_target' => $user->daily_fat_target,
                 'unit' => 'g',
-                'left' => max($user->daily_fat_target - $total_fat, 0)
+                'left' => $user->daily_fat_target - $total_fat,
             ],
         ];
 
