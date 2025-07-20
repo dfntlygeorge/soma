@@ -96,6 +96,35 @@ class MealHelper
 
         return $dailyCalories;
     }
+    /**
+     * Get daily protein data for a specific date range, filling missing dates with 0
+     *
+     * @param \Illuminate\Support\Collection $meals
+     * @param Carbon $startDate
+     * @param Carbon $endDate
+     * @return array
+     */
+    public static function getDailyProteinsForRange($meals, Carbon $startDate, Carbon $endDate)
+    {
+        $dailySums = self::getDailySums($meals);
+        $dailyProtein = [];
+        $currentDate = $startDate->copy();
+
+        // Initialize all dates in range with 0 calories
+        while ($currentDate->lte($endDate)) {
+            $dailyProtein[$currentDate->format('Y-m-d')] = 0;
+            $currentDate->addDay();
+        }
+
+        // Add actual calories data
+        foreach ($dailySums as $date => $data) {
+            if (isset($dailyProtein[$date])) {
+                $dailyProtein[$date] = $data['protein'];
+            }
+        }
+
+        return $dailyProtein;
+    }
 
     /**
      * Format a date range string (e.g., "July 13 - July 19")

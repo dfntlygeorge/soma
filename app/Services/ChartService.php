@@ -19,19 +19,22 @@ class ChartService
             ->orderBy('date')
             ->get();
 
-        // Use helper to get daily calories data with 0s for missing dates
+        // Get daily calories and proteins data with 0s for missing dates
         $dailyCalories = MealHelper::getDailyCaloriesForRange($weeklyMeals, $startOfWeek, $endOfWeek);
+        $dailyProteins = MealHelper::getDailyProteinsForRange($weeklyMeals, $startOfWeek, $endOfWeek); // Updated method name
 
         // Prepare chart data
         $labels = [];
-        $data = [];
+        $caloriesData = [];
+        $proteinsData = [];
 
         foreach ($dailyCalories as $date => $calories) {
             $labels[] = Carbon::parse($date)->format('M j'); // e.g., "Jul 13"
-            $data[] = $calories;
+            $caloriesData[] = $calories;
+            $proteinsData[] = $dailyProteins[$date] ?? 0; // Get protein for same date
         }
 
-        // Create the chart
+        // Create the chart with two datasets
         $chart = Chartjs::build()
             ->name('weeklyCaloriesChart')
             ->type('line')
@@ -46,17 +49,39 @@ class ChartService
                     "pointBackgroundColor" => "#94984a",
                     "pointHoverBackgroundColor" => "#aab069", // olive-400
                     "pointHoverBorderColor" => "#767a39", // olive-600
-                    "data" => $data,
+                    "data" => $caloriesData,
                     "fill" => true,
-                    "tension" => 0.4, // smooth curves
+                    "tension" => 0.4 // smooth curves
+                ],
+                [
+                    "label" => "Daily Protein (g)",
+                    'backgroundColor' => "rgba(59, 130, 246, 0.1)", // blue-500 with transparency
+                    'borderColor' => "#3b82f6", // blue-500
+                    "pointBorderColor" => "#3b82f6",
+                    "pointBackgroundColor" => "#3b82f6",
+                    "pointHoverBackgroundColor" => "#60a5fa", // blue-400
+                    "pointHoverBorderColor" => "#2563eb", // blue-600
+                    "data" => $proteinsData,
+                    "fill" => false, // No fill for protein line
+                    "tension" => 0.4
                 ]
             ])
             ->options([
                 'responsive' => true,
                 'maintainAspectRatio' => false,
+                'interaction' => [
+                    'mode' => 'index',
+                    'intersect' => false,
+                ],
                 'plugins' => [
                     'legend' => [
-                        'display' => false
+                        'display' => true,
+                        'position' => 'top',
+                        'labels' => [
+                            'color' => '#9CA3AF',
+                            'usePointStyle' => true,
+                            'padding' => 20
+                        ]
                     ]
                 ],
                 'scales' => [
@@ -73,8 +98,7 @@ class ChartService
                             'color' => '#374151' // gray-700
                         ],
                         'ticks' => [
-                            'color' => '#9CA3AF', // gray-400
-                            'callback' => 'function(value) { return value + " cal"; }'
+                            'color' => '#9CA3AF' // gray-400
                         ]
                     ]
                 ]
