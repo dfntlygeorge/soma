@@ -25,7 +25,8 @@ class MealController extends Controller
             'description' => 'required|string|max:400',
         ]);
 
-        $description = $request->description;
+        $description = $request->input('description');
+
 
         $macros = $this->macroAnalyzerService->analyze($description);
 

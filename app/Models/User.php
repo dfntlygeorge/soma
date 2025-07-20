@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * App\Models\User
+ *
+ * @property int|null $daily_calorie_target
+ * @property int|null $daily_protein_target
+ * @property int|null $daily_carbs_target
+ * @property int|null $daily_fat_target
+ * @property int $id
+ * @property bool $onboarded
+ */
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */

@@ -1,7 +1,14 @@
+@php
+    use App\Helpers\OnboardingHelper;
+@endphp
+
 <x-app-layout>
     <div class="min-h-screen flex items-center justify-center bg-base-200 text-gray-200">
         <div class="card w-full max-w-md bg-base-100 shadow-xl">
             <div class="card-body">
+                <x-editing-notice>
+                    You can update your details below.
+                </x-editing-notice>
                 <h2 class="card-title text-center justify-center mb-6">Activity Level</h2>
 
                 <!-- Progress indicator -->
@@ -26,7 +33,7 @@
                             <label class="cursor-pointer">
                                 <input type="radio" name="activity_level" value="sedentary"
                                     class="radio radio-primary"
-                                    {{ old('activity_level', session('onboarding.activity_level')) == 'sedentary' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('activity_level', $user, $onboarded) === 'sedentary' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Sedentary</h3>
@@ -37,7 +44,7 @@
 
                             <label class="cursor-pointer">
                                 <input type="radio" name="activity_level" value="light" class="radio radio-primary"
-                                    {{ old('activity_level', session('onboarding.activity_level')) == 'light' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('activity_level', $user, $onboarded) === 'light' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Light Activity</h3>
@@ -48,7 +55,7 @@
 
                             <label class="cursor-pointer">
                                 <input type="radio" name="activity_level" value="moderate" class="radio radio-primary"
-                                    {{ old('activity_level', session('onboarding.activity_level')) == 'moderate' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('activity_level', $user, $onboarded) === 'moderate' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Moderate Activity</h3>
@@ -59,7 +66,7 @@
 
                             <label class="cursor-pointer">
                                 <input type="radio" name="activity_level" value="active" class="radio radio-primary"
-                                    {{ old('activity_level', session('onboarding.activity_level')) == 'active' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('activity_level', $user, $onboarded) === 'active' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Very Active</h3>
@@ -70,7 +77,7 @@
 
                             <label class="cursor-pointer">
                                 <input type="radio" name="activity_level" value="extra" class="radio radio-primary"
-                                    {{ old('activity_level', session('onboarding.activity_level')) == 'extra' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('activity_level', $user, $onboarded) === 'extra' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Extra Active</h3>
@@ -89,7 +96,7 @@
                         @enderror
                     </div>
 
-                    <div class="form-control flex-row gap-3">
+                    <div class="flex justify-between gap-3">
                         <a href="{{ route('onboarding.show', ['step' => 2]) }}" class="btn btn-outline flex-1">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

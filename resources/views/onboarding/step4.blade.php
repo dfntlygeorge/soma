@@ -79,7 +79,7 @@
                                 readonly>
                         </div>
 
-                        <div class="form-control flex-row gap-3">
+                        <div class="flex justify-between gap-3">
                             <a href="{{ route('onboarding.show', ['step' => 3]) }}" class="btn btn-outline flex-1">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

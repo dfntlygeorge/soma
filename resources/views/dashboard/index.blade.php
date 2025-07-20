@@ -3,21 +3,19 @@
 
     <div class="min-h-screen bg-gray-900 text-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
             {{-- Header --}}
-            <div class="mb-8">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-100 mb-2">Today's Macros</h1>
-                        <p class="text-gray-400">Track your daily nutrition goals</p>
-                    </div>
-                    <div class="text-olive-400">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                        </svg>
-                    </div>
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-100 mb-2">Today's Macros</h1>
+                    <p class="text-gray-400">Track your daily nutrition goals</p>
                 </div>
+                <button class="flex items-center gap-2 text-olive-400 hover:text-olive-300 transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                    <span class="text-sm font-medium">Adjust Goals</span>
+                </button>
             </div>
 
             {{-- Success Message --}}
@@ -38,7 +36,7 @@
             {{-- Macro target cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 @foreach ($daily_macros_target as $macro)
-                    <x-macro-card :macro="$macro" />
+                    <x-dashboard.macro-card :macro="$macro" />
                 @endforeach
             </div>
 
@@ -128,7 +126,7 @@
 
                 <div class="space-y-4">
                     @forelse ($meals as $meal)
-                        <x-meal-card :meal="$meal" />
+                        <x-dashboard.meal-card :meal="$meal" />
                     @empty
                         <div class="text-center py-16">
                             <div

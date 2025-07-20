@@ -90,14 +90,15 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span class="text-sm">Ready to complete your profile setup!</span>
+                    <span
+                        class="text-sm">{{ $onboarded ? 'Ready to update your targets' : 'Ready to complete your profile setup' }}</span>
                 </div>
 
                 <form method="POST" action="{{ route('onboarding.store') }}">
                     @csrf
                     <input type="hidden" name="step" value="5">
 
-                    <div class="form-control flex-row gap-3">
+                    <div class="flex gap-3 justify-between">
                         <a href="{{ route('onboarding.show', ['step' => 4]) }}" class="btn btn-outline flex-1">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

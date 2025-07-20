@@ -1,7 +1,15 @@
+@php
+    use App\Helpers\OnboardingHelper;
+@endphp
+
 <x-app-layout>
-    <div class="min-h-screen flex items-center justify-center bg-base-200 text-gray-200">
+    <div class="min-h-screen flex flex-col items-center justify-center bg-base-200 text-gray-200">
+
         <div class="card w-full max-w-md bg-base-100 shadow-xl">
             <div class="card-body">
+                <x-editing-notice>
+                    You can update your details below.
+                </x-editing-notice>
                 <h2 class="card-title text-center justify-center mb-6">Tell us about yourself</h2>
 
                 <!-- Progress indicator -->
@@ -23,8 +31,8 @@
                         </label>
                         <input type="number" name="age"
                             class="input input-bordered w-full @error('age') input-error @enderror"
-                            value="{{ old('age', session('onboarding.age')) }}" min="10" max="100"
-                            placeholder="Enter your age">
+                            value="{{ OnboardingHelper::field('age', $user, $onboarded) }}" min="10"
+                            max="100" placeholder="Enter your age">
                         @error('age')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -40,11 +48,11 @@
                             class="select select-bordered w-full @error('sex') select-error @enderror">
                             <option value="">Select your sex</option>
                             <option value="male"
-                                {{ old('sex', session('onboarding.sex')) == 'male' ? 'selected' : '' }}>
+                                {{ OnboardingHelper::field('sex', $user, $onboarded) === 'male' ? 'selected' : '' }}>
                                 Male</option>
                             <option value="female"
-                                {{ old('sex', session('onboarding.sex')) == 'female' ? 'selected' : '' }}>Female
-                            </option>
+                                {{ OnboardingHelper::field('sex', $user, $onboarded) === 'female' ? 'selected' : '' }}>
+                                Female</option>
                         </select>
                         @error('sex')
                             <label class="label">
@@ -59,8 +67,8 @@
                         </label>
                         <input type="number" name="height"
                             class="input input-bordered w-full @error('height') input-error @enderror"
-                            value="{{ old('height', session('onboarding.height')) }}" min="50" max="300"
-                            step="0.1" placeholder="Enter your height in cm">
+                            value="{{ OnboardingHelper::field('height', $user, $onboarded) }}" min="50"
+                            max="300" step="0.1" placeholder="Enter your height in cm">
                         @error('height')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>
@@ -74,8 +82,8 @@
                         </label>
                         <input type="number" name="weight"
                             class="input input-bordered w-full @error('weight') input-error @enderror"
-                            value="{{ old('weight', session('onboarding.weight')) }}" min="20" max="500"
-                            step="0.1" placeholder="Enter your weight in kg">
+                            value="{{ OnboardingHelper::field('weight', $user, $onboarded) }}" min="20"
+                            max="500" step="0.1" placeholder="Enter your weight in kg">
                         @error('weight')
                             <label class="label">
                                 <span class="label-text-alt text-error">{{ $message }}</span>

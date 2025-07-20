@@ -1,7 +1,14 @@
+@php
+    use App\Helpers\OnboardingHelper;
+@endphp
+
 <x-app-layout>
     <div class="min-h-screen flex items-center justify-center bg-base-200 text-gray-200">
         <div class="card w-full max-w-md bg-base-100 shadow-xl">
             <div class="card-body">
+                <x-editing-notice>
+                    You can update your details below.
+                </x-editing-notice>
                 <h2 class="card-title text-center justify-center mb-6">What's your goal?</h2>
 
                 <!-- Progress indicator -->
@@ -25,7 +32,7 @@
                         <div class="space-y-3">
                             <label class="cursor-pointer">
                                 <input type="radio" name="goal" value="lose" class="radio radio-primary"
-                                    {{ old('goal', session('onboarding.goal')) == 'lose' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('goal', $user, $onboarded) === 'lose' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Lose Weight</h3>
@@ -37,7 +44,7 @@
 
                             <label class="cursor-pointer">
                                 <input type="radio" name="goal" value="maintain" class="radio radio-primary"
-                                    {{ old('goal', session('onboarding.goal')) == 'maintain' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('goal', $user, $onboarded) === 'maintain' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Maintain Weight</h3>
@@ -49,7 +56,7 @@
 
                             <label class="cursor-pointer">
                                 <input type="radio" name="goal" value="gain" class="radio radio-primary"
-                                    {{ old('goal', session('onboarding.goal')) == 'gain' ? 'checked' : '' }}>
+                                    {{ OnboardingHelper::field('goal', $user, $onboarded) === 'gain' ? 'checked' : '' }}>
                                 <div class="card bg-base-200 ml-3 inline-block w-full">
                                     <div class="card-body py-4">
                                         <h3 class="font-semibold">Gain Weight</h3>
@@ -67,7 +74,7 @@
                         @enderror
                     </div>
 
-                    <div class="form-control flex-row gap-3">
+                    <div class="flex gap-3 justify-between">
                         <a href="{{ route('onboarding.show', ['step' => 1]) }}" class="btn btn-outline flex-1">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

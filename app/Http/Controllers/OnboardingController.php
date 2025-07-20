@@ -20,6 +20,8 @@ class OnboardingController extends Controller
 
     public function show(Request $request)
     {
+        $user = auth()->user();
+        $onboarded = $user->onboarded;
         $step = $request->query("step", 1);
 
         // Redirect to step 1 if invalid step
@@ -27,7 +29,7 @@ class OnboardingController extends Controller
             return redirect()->route("onboarding.show", ["step" => 1]);
         }
 
-        return view("onboarding.step{$step}");
+        return view("onboarding.step{$step}", compact('user', 'onboarded'));
     }
 
     public function getRecommendations(Request $request)
