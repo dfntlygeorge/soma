@@ -17,6 +17,7 @@
 
             <div x-show="open" @click.away="open = false" x-transition
                 class="absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-10 border border-gray-600">
+
                 {{-- Edit Action --}}
                 <a href="{{ route('meal-templates.edit', ['meal_template_id' => $meal->id]) }}"
                     class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-600 hover:text-white transition-colors duration-150">
@@ -27,6 +28,18 @@
                     Edit Template
                 </a>
 
+                {{-- Quick Add Action --}}
+                <form action="{{ route('meals.quick-add', $meal) }}" method="POST" class="block">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-gray-600 hover:text-olive-400 transition-colors duration-150">
+                        <svg class="w-4 h-4 mr-3 text-olive-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Quick Add
+                    </button>
+                </form>
                 {{-- Delete Action --}}
                 <form method="POST" action="{{ route('meal-templates.destroy', $meal->id) }}" class="block">
                     @csrf
@@ -40,7 +53,9 @@
                         Delete Template
                     </button>
                 </form>
+
             </div>
+
         </div>
     </div>
 

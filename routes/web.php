@@ -3,6 +3,7 @@
 use App\Http\Controllers\CreateTemplateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditTemplateController;
+use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\MacroController;
 use App\Http\Controllers\MealTemplateController;
 use App\Http\Middleware\EnsureUserIsOnboarded;
@@ -24,6 +25,8 @@ Route::post('/meals/templates/create', [MealTemplateController::class, 'store'])
 // Route::put('/meals/templates/{meal_template}', [EditTemplateController::class, 'update'])->name('meal-templates.update'); // form submit
 // Route::delete('/meals/templates/{meal_template}', [EditTemplateController::class, 'destroy'])->name('meal-templates.destroy'); // delete
 Route::get('/meals/templates', [EditTemplateController::class, 'index'])->name('meal-templates.index'); // back to list
+
+Route::resource('ingredients', IngredientController::class)->middleware('auth');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/profile.php';

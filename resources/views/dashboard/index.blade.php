@@ -160,12 +160,25 @@
                                 <div>
                                     <label class="block text-gray-300 font-medium mb-2">Meal Type</label>
                                     <select name="meal_type"
-                                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-olive-500 focus:border-olive-500 transition-colors">
-                                        <option value="breakfast">🌅 Breakfast</option>
-                                        <option value="lunch">☀️ Lunch</option>
-                                        <option value="dinner">🌙 Dinner</option>
-                                        <option value="snack">🍎 Snack</option>
+                                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-gray-100 rounded-lg focus:ring-2 focus:ring-olive-500 focus:border-olive-500 transition-colors"
+                                        required>
+
+                                        <option value="" disabled {{ old('meal_type') ? '' : 'selected' }}>Select
+                                            a meal type</option>
+
+                                        <option value="breakfast"
+                                            {{ old('meal_type') === 'breakfast' ? 'selected' : '' }}>🌅 Breakfast
+                                        </option>
+                                        <option value="lunch" {{ old('meal_type') === 'lunch' ? 'selected' : '' }}>☀️
+                                            Lunch</option>
+                                        <option value="dinner" {{ old('meal_type') === 'dinner' ? 'selected' : '' }}>
+                                            🌙 Dinner</option>
+                                        <option value="snack" {{ old('meal_type') === 'snack' ? 'selected' : '' }}>🍎
+                                            Snack</option>
                                     </select>
+                                    @error('meal_type')
+                                        <p class="text-sm text-red-400 mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <input type="hidden" name="total_calories" value="{{ $macros['total_calories'] }}">

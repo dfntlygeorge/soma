@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\MealHelper;
 use App\Models\Meal;
+use App\Models\SavedMeal;
 use App\Services\MacroAnalyzerService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -136,5 +137,25 @@ class MealController extends Controller
             'canLoadMore',
             'nextDays'
         ) + $averages + $todayMacroSums);
+    }
+
+    public function quickAdd(SavedMeal $meal)
+    {
+        $user = auth()->user();
+
+        Meal::create([
+            'user_id' => $user->id,
+            'description' => $meal->name,
+            'category' => $meal->category,
+            'total_calories' => $meal->calories,
+            'protein' => $meal->protein,
+            'carbs' => $meal->carbs,
+            'fat' => $meal->fat,
+            'date' => now(),
+        ]);
+
+        return redirect()->route(
+            'dashboard'
+        )->with('success', 'Meal logged successfully!');
     }
 }
