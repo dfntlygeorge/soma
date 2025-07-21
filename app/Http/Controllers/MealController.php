@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\MealHelper;
 use App\Models\Meal;
 use App\Models\SavedMeal;
-use App\Services\MacroAnalyzerService;
+use App\Services\GeminiService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +13,10 @@ use App\Services\ChartService;
 
 class MealController extends Controller
 {
-    private MacroAnalyzerService $macroAnalyzerService;
-    public function __construct(MacroAnalyzerService $macroAnalyzerService)
+    private GeminiService $geminiService;
+    public function __construct(GeminiService $geminiService)
     {
-        $this->macroAnalyzerService = $macroAnalyzerService;
+        $this->geminiService = $geminiService;
     }
 
     public function analyze(Request $request)
@@ -29,7 +29,7 @@ class MealController extends Controller
         $description = $request->input('description');
 
 
-        $macros = $this->macroAnalyzerService->analyze($description);
+        $macros = $this->geminiService->analyzeMeal($description);
 
         return redirect()->route('dashboard')->with(['review_macros' => $macros, 'review_description' => $description]);
     }

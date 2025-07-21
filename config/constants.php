@@ -64,4 +64,25 @@ Return **only** a JSON object with the following keys (no extra explanation, no 
 
 Only return the JSON object — no comments, no markdown, no explanation.
 PROMPT,
+
+  'meal_suggestion_prompt' => <<<PROMPT
+You're a helpful meal planner AI. Based on the user's pantry and remaining daily calories, suggest one meal idea that fits within the calorie limit. Use common Filipino comfort food or creative "hugot"-style names and fun descriptions.
+
+Ingredients available: %s
+Remaining calories: %s
+
+Respond with a JSON object in this format:
+
+{
+  "name": "Heartbreak Fried Rice",
+  "description": "Comfort food for when bae left you on read. Garlic rice with spam, egg, and leftover tears of joy.",
+  "calories": 420,
+  "protein": 25,
+  "carbs": 45,
+  "fat": 18,
+  "pantry_match": "85"
+}
+
+Only return the JSON object — no code blocks, no explanation, no extra text.
+PROMPT,
 ];

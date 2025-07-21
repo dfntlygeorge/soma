@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Services\MacroRecommendationService;
+use App\Services\GeminiService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class OnboardingController extends Controller
 {
-    private MacroRecommendationService $macroRecommendationService;
+    private GeminiService $geminiService;
 
-    public function __construct(MacroRecommendationService $macroRecommendationService)
+    public function __construct(GeminiService $geminiService)
     {
-        $this->macroRecommendationService = $macroRecommendationService;
+        $this->geminiService = $geminiService;
     }
 
     public function show(Request $request)
@@ -63,7 +63,7 @@ class OnboardingController extends Controller
             }
 
             // Get recommendations from API
-            $recommendedMacros = $this->macroRecommendationService->getRecommendedMacros($userInfo);
+            $recommendedMacros = $this->geminiService->getRecommendedMacros($userInfo);
 
             // Store in session for future use
             session()->put('onboarding.macro_recommendations', $recommendedMacros);
