@@ -104,11 +104,11 @@ class MealController extends Controller
         // Get user's meals
         $meals = auth()->user()->meals()->get();
 
-        // Calculate daily averages using helper function
+        // Calculate daily averages using helper function, calculate averages of the meals within a week.
         $averages = MealHelper::calculateDailyAverages($meals);
 
         // Get chart data
-        $chart = $chartService->weeklyCaloriesChart($meals);
+        $chart = $chartService->weeklyCaloriesChart();
 
         // Get formatted current week range
         $weekRange = MealHelper::getCurrentWeekRange();

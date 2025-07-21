@@ -8,7 +8,7 @@ use App\Helpers\MealHelper; // Add this import
 
 class ChartService
 {
-    public function weeklyCaloriesChart($meals)
+    public function weeklyCaloriesChart()
     {
         // Get current week's meals (Monday to Sunday)
         $startOfWeek = now()->startOfWeek();
