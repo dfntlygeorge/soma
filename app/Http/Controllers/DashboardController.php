@@ -17,6 +17,7 @@ class DashboardController extends Controller
 
         $user = auth()->user();
         $meals = $user->meals()->whereDate('date', Carbon::today())->get();
+        $saved_meals = $user->saved_meals();
 
         $total_calories = $meals->sum('total_calories');
         $total_protein = $meals->sum('protein');
@@ -50,6 +51,6 @@ class DashboardController extends Controller
         ];
 
 
-        return view("dashboard.index", compact('user', 'daily_macros_target', 'meals'));
+        return view("dashboard.index", compact('user', 'daily_macros_target', 'meals', 'saved_meals'));
     }
 }

@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('meals.history')" :active="request()->routeIs('meals.history')">
                         {{ __('History') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('meal-templates.index')" :active="request()->routeIs('meal-templates.index')">
+                        {{ __('Templates') }}
+                    </x-nav-link>
                 </div>
             </div>
 

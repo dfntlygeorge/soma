@@ -43,6 +43,7 @@ class EditTemplateController extends Controller
 
     public function index()
     {
-        return view('meals.templates.index');
+        $saved_meals = auth()->user()->saved_meals;
+        return view('meals.templates.index', compact('saved_meals'));
     }
 }
