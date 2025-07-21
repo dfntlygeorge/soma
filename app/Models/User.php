@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SavedMeal::class);
     }
+
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredients::class);
+    }
 }
