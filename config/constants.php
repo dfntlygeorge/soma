@@ -66,23 +66,44 @@ Only return the JSON object — no comments, no markdown, no explanation.
 PROMPT,
 
   'meal_suggestion_prompt' => <<<PROMPT
-You're a helpful meal planner AI. Based on the user's pantry and remaining daily calories, suggest one meal idea that fits within the calorie limit. Use common Filipino comfort food or creative "hugot"-style names and fun descriptions.
+You're a helpful meal planner AI. Based on the user's pantry and remaining daily calories, suggest **three** unique meal ideas that each fit within the calorie limit. Use common Filipino comfort food or creative "hugot"-style names and lighthearted descriptions.
 
-Ingredients available: %s
-Remaining calories: %s
+Ingredients available: %s  
+Remaining calories: %s  
 
-Respond with a JSON object in this format:
+Respond with a JSON array of 3 meal objects in this format:
+EXAMPLE OF A GOOD RESPONSE
+[
+  {
+    "name": "Heartbreak Fried Rice",
+    "description": "Comfort food for when bae left you on read. Garlic rice with spam, egg, and leftover tears of joy.",
+    "calories": 420,
+    "protein": 25,
+    "carbs": 45,
+    "fat": 18,
+    "pantry_match": 85
+  },
+  {
+    "name": "Unli Rice Regret Bowl",
+    "description": "Because you said you wouldn't—but you did. Sweet soy chicken, boiled egg, and garlic kangkong over rice.",
+    "calories": 480,
+    "protein": 30,
+    "carbs": 50,
+    "fat": 16,
+    "pantry_match": 80
+  },
+  {
+    "name": "Tropa Nacho Fiesta",
+    "description": "Inspired by your barkada—crunchy, cheesy, and always there when you need them. Tuna, melted cheese, and veggie chips.",
+    "calories": 390,
+    "protein": 22,
+    "carbs": 38,
+    "fat": 20,
+    "pantry_match": 75
+  }
+]
 
-{
-  "name": "Heartbreak Fried Rice",
-  "description": "Comfort food for when bae left you on read. Garlic rice with spam, egg, and leftover tears of joy.",
-  "calories": 420,
-  "protein": 25,
-  "carbs": 45,
-  "fat": 18,
-  "pantry_match": "85"
-}
-
-Only return the JSON object — no code blocks, no explanation, no extra text.
+Only return the raw JSON array — no code blocks, no explanation, no extra text.
 PROMPT,
+
 ];

@@ -35,10 +35,13 @@
                             had. 💕
                         </p>
                         <div class="card-actions justify-end">
-                            <button
-                                class="btn btn-outline border-olive-500 text-olive-400 hover:bg-olive-500 hover:text-gray-900">
-                                Browse Previous
-                            </button>
+                            <form method="POST" action="{{ route('charmy.history') }}">
+                                @csrf
+                                <button
+                                    class="btn btn-outline border-olive-500 text-olive-400 hover:bg-olive-500 hover:text-gray-900">
+                                    Browse Previous
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -58,10 +61,13 @@
                             love. 🤖💘
                         </p>
                         <div class="card-actions justify-end">
-                            <button
-                                class="btn btn-outline border-olive-500 text-olive-400 hover:bg-olive-500 hover:text-gray-900">
-                                Get AI Ideas
-                            </button>
+                            <form method="POST" action="{{ route('charmy.ai') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="btn btn-outline border-olive-500 text-olive-400 hover:bg-olive-500 hover:text-gray-900">
+                                    Get AI Ideas
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -75,135 +81,72 @@
                 </div>
 
                 <div class="grid gap-4 mb-6">
-                    {{-- Suggestion Card 1 --}}
-                    <div class="card bg-gray-800 shadow-lg border border-gray-700">
-                        <div class="card-body p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Heartbreak Fried Rice</h3>
-                                    <p class="text-gray-400">Comfort food for when bae left you on read. Garlic rice
-                                        with spam, egg, and leftover tears of joy.</p>
-                                </div>
-                                <div class="text-right">
-                                    <div class="stat-value text-olive-400 text-lg">420</div>
-                                    <div class="stat-desc text-gray-500">calories</div>
-                                </div>
-                            </div>
+                    @if (!empty($suggestions) && count($suggestions) > 0)
+                        @foreach ($suggestions as $suggestion)
+                            @php
+                                $isMatchThere = $suggestion['pantry_match'];
+                                $match = $suggestion['pantry_match'] ?? 0;
+                                $matchColor =
+                                    $match >= 80 ? 'bg-green-500' : ($match >= 50 ? 'bg-yellow-500' : 'bg-red-500');
+                            @endphp
 
-                            <div class="flex gap-4 mb-4">
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">25g</div>
-                                    <div class="text-xs text-gray-500">Protein</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">45g</div>
-                                    <div class="text-xs text-gray-500">Carbs</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">18g</div>
-                                    <div class="text-xs text-gray-500">Fat</div>
-                                </div>
-                                <div class="flex-1"></div>
-                                <div class="flex items-center gap-1">
-                                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                                    <span class="text-xs text-gray-400">85% pantry match</span>
-                                </div>
-                            </div>
+                            <div class="card bg-gray-800 shadow-lg border border-gray-700">
+                                <div class="card-body p-6">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h3 class="text-xl font-semibold text-gray-100 mb-2">
+                                                {{ $suggestion['name'] ?? 'From your previous meals' }}
+                                            </h3>
+                                            <p class="text-gray-400">
+                                                {{ $suggestion['description'] ?? 'No description provided.' }}
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="stat-value text-olive-400 text-lg">
+                                                {{ $suggestion['calories'] ?? ($suggestion['total_calories'] ?? 'N/A') }}
+                                            </div>
+                                            <div class="stat-desc text-gray-500">calories</div>
+                                        </div>
+                                    </div>
 
-                            <div class="card-actions justify-end">
-                                <button class="btn btn-sm bg-olive-600 hover:bg-olive-700 text-gray-900 border-none">
-                                    ✅ Plan This Meal
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                                    <div class="flex gap-4 mb-4">
+                                        <div class="text-center">
+                                            <div class="text-sm font-medium text-olive-400">
+                                                {{ $suggestion['protein'] ?? 'N/A' }}g</div>
+                                            <div class="text-xs text-gray-500">Protein</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-sm font-medium text-olive-400">
+                                                {{ $suggestion['carbs'] ?? 'N/A' }}g</div>
+                                            <div class="text-xs text-gray-500">Carbs</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-sm font-medium text-olive-400">
+                                                {{ $suggestion['fat'] ?? 'N/A' }}g</div>
+                                            <div class="text-xs text-gray-500">Fat</div>
+                                        </div>
+                                        <div class="flex-1"></div>
+                                        @if ($isMatchThere)
+                                            <div class="flex items-center gap-1">
+                                                <div class="w-2 h-2 {{ $matchColor }} rounded-full"></div>
+                                                <span class="text-xs text-gray-400">{{ $match }}% pantry
+                                                    match</span>
+                                            </div>
+                                        @endif
+                                    </div>
 
-                    {{-- Suggestion Card 2 --}}
-                    <div class="card bg-gray-800 shadow-lg border border-gray-700">
-                        <div class="card-body p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Love Potion Smoothie</h3>
-                                    <p class="text-gray-400">Berry smoothie that's sweeter than your crush's smile.
-                                        Banana, berries, protein powder, and hope.</p>
-                                </div>
-                                <div class="text-right">
-                                    <div class="stat-value text-olive-400 text-lg">285</div>
-                                    <div class="stat-desc text-gray-500">calories</div>
+                                    <div class="card-actions justify-end">
+                                        <button
+                                            class="btn btn-sm bg-olive-600 hover:bg-olive-700 text-gray-900 border-none">
+                                            ✅ Plan This Meal
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="flex gap-4 mb-4">
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">28g</div>
-                                    <div class="text-xs text-gray-500">Protein</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">35g</div>
-                                    <div class="text-xs text-gray-500">Carbs</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">4g</div>
-                                    <div class="text-xs text-gray-500">Fat</div>
-                                </div>
-                                <div class="flex-1"></div>
-                                <div class="flex items-center gap-1">
-                                    <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                                    <span class="text-xs text-gray-400">60% pantry match</span>
-                                </div>
-                            </div>
-
-                            <div class="card-actions justify-end">
-                                <button class="btn btn-sm bg-olive-600 hover:bg-olive-700 text-gray-900 border-none">
-                                    ✅ Plan This Meal
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Suggestion Card 3 --}}
-                    <div class="card bg-gray-800 shadow-lg border border-gray-700">
-                        <div class="card-body p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 class="text-xl font-semibold text-gray-100 mb-2">Soulmate Salad Bowl</h3>
-                                    <p class="text-gray-400">Fresh greens with grilled chicken, the perfect match.
-                                        Unlike your dating life, this one's balanced.</p>
-                                </div>
-                                <div class="text-right">
-                                    <div class="stat-value text-olive-400 text-lg">380</div>
-                                    <div class="stat-desc text-gray-500">calories</div>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-4 mb-4">
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">35g</div>
-                                    <div class="text-xs text-gray-500">Protein</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">12g</div>
-                                    <div class="text-xs text-gray-500">Carbs</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-sm font-medium text-olive-400">22g</div>
-                                    <div class="text-xs text-gray-500">Fat</div>
-                                </div>
-                                <div class="flex-1"></div>
-                                <div class="flex items-center gap-1">
-                                    <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-                                    <span class="text-xs text-gray-400">40% pantry match</span>
-                                </div>
-                            </div>
-
-                            <div class="card-actions justify-end">
-                                <button class="btn btn-sm bg-olive-600 hover:bg-olive-700 text-gray-900 border-none">
-                                    ✅ Plan This Meal
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
+
             </div>
 
             {{-- Step 3: Planned Meals Section --}}

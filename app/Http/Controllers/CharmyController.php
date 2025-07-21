@@ -55,6 +55,10 @@ class CharmyController extends Controller
             ->get();
         // util function to get 1-3 meals from the database that is within the user's kcal left.
         // pass the suggestions to the /charmy page
+
+        return view('charmy.index', [
+            'suggestions' => $suggested_meals
+        ]);
     }
 
     public function suggestAi()
@@ -90,5 +94,9 @@ class CharmyController extends Controller
         $suggested_meals = $this->geminiService->suggestMeal($ingredientString, $recommended_calories_for_next_meal);
         // use a service for the api call maybe call it suggestMealService or something
         // pass the suggestions to the /charmy page
+
+        return view('charmy.index', [
+            'suggestions' => $suggested_meals
+        ]);
     }
 }
