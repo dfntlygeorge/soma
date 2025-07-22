@@ -56,20 +56,3 @@
         </div>
     </form>
 </div>
-
-<script>
-    function toggleSuggestDropdown() {
-        const dropdown = document.getElementById('suggestDropdown');
-        dropdown.classList.toggle('hidden');
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        const dropdown = document.getElementById('suggestDropdown');
-        const button = event.target.closest('button[onclick="toggleSuggestDropdown()"]');
-
-        if (!button && !dropdown.contains(event.target)) {
-            dropdown.classList.add('hidden');
-        }
-    });
-</script>
