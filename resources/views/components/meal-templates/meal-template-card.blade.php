@@ -105,6 +105,5 @@
 
 {{-- Use Template Modal --}}
 {{-- props is $saved_meal --}}
-<x-meal-templates.review-modal-template :modal-id="'use-template-' . $meal->id" title="Use Template: {{ $meal->name }}" :action-route="route('meals.confirm')"
-    action-text="Log Meal" :description="$meal->name" :calories="$meal->calories" :protein="$meal->protein" :carbs="$meal->carbs" :fat="$meal->fat"
-    :show-description-input="false" />
+<x-meal-templates.review-modal-template :modalId="'use-template-' . $meal->id" :title="'Use Template: ' . $meal->name" :actionRoute="route('meals.confirm')" actionText="Log Meal"
+    :description="$meal->name" :calories="$meal->calories" :protein="$meal->protein" :carbs="$meal->carbs" :fat="$meal->fat" :showDescriptionInput="false" />

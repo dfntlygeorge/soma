@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\meal-templates;
+namespace App\View\Components\MealTemplates;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class MealTemplateCard extends Component
+class ReviewModalTemplate extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class MealTemplateCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.meal-templates.meal-template-card');
+        return view('components.meal-templates.review-modal-template');
     }
 }

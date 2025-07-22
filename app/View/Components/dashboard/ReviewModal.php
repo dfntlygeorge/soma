@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\dashboard;
+namespace App\View\Components\Dashboard;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class review-modal extends Component
+class ReviewMOdal extends Component
 {
     /**
      * Create a new component instance.

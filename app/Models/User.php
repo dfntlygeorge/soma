@@ -16,6 +16,10 @@ use Illuminate\Notifications\Notifiable;
  * @property int|null $daily_fat_target
  * @property int $id
  * @property bool $onboarded
+ *  @property int $streak
+ * @property \Illuminate\Support\Carbon|null $last_logged_at
+ * @property int $longest_streak
+ * @property array|null $earned_badges
  */
 
 class User extends Authenticatable
@@ -42,7 +46,11 @@ class User extends Authenticatable
         'daily_protein_target',
         'daily_carbs_target',
         'daily_fat_target',
-        'onboarded'
+        'onboarded',
+        'streak',
+        'last_logged_at',
+        'longest_streak',
+        'earned_badges',
     ];
 
     /**
@@ -65,6 +73,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_logged_at' => 'date',
+            'earned_badges' => 'array',
         ];
     }
 

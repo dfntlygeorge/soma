@@ -7,7 +7,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-100 mb-2">Meal Templates</h1>
-                        <p class="text-gray-400">Manage your saved meal templates</p>
+                        <p class="text-gray-400">Some meals are saved. Some people are just lessons.</p>
                     </div>
                     <div class="flex items-center space-x-4">
                         {{-- Add New Template Button --}}

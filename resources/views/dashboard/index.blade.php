@@ -7,7 +7,8 @@
             <div class="flex items-center justify-between mb-8">
                 <div>
                     <h1 class="text-3xl font-bold text-gray-100 mb-2">Today's Macros</h1>
-                    <p class="text-gray-400">Track your daily nutrition goals</p>
+                    <p class="text-gray-400">Every kcal I track is a piece of me na hindi mo minahal.
+                    </p>
                 </div>
                 <a href="{{ route('onboarding.show') }}"
                     class="flex items-center gap-2 text-olive-400 hover:text-olive-300 transition-colors">
@@ -17,7 +18,6 @@
                     </svg>
                     <span class="text-sm font-medium">Adjust Goals</span>
                 </a>
-
             </div>
 
             {{-- Success Message --}}
@@ -35,20 +35,33 @@
                 </div>
             @endif
 
-            {{-- Macro target cards --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                @foreach ($daily_macros_target as $macro)
-                    <x-dashboard.macro-card :macro="$macro" />
-                @endforeach
+            {{-- Two Column Layout for Large Screens --}}
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+
+                {{-- Left Column (60% - 3/5 of grid) - Overview Content --}}
+                <div class="lg:col-span-3 space-y-8">
+
+                    {{-- Macro target cards --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach ($daily_macros_target as $macro)
+                            <x-dashboard.macro-card :macro="$macro" />
+                        @endforeach
+                    </div>
+
+                    {{-- Streaks Section --}}
+                    @include('components.dashboard.streaks')
+                </div>
+
+                {{-- Right Column (40% - 2/5 of grid) - Action Content --}}
+                <div class="lg:col-span-2 space-y-6">
+                    {{-- Meal Logging Component --}}
+                    <x-dashboard.meal-logger />
+
+                    {{-- Meals section --}}
+                    @include('components.meals-section')
+                </div>
             </div>
 
-            @include('components.dashboard.streaks')
-
-            {{-- Meal Logging Component --}}
-            <x-dashboard.meal-logger />
-
-            {{-- Meals section --}}
-            @include('components.meals-section')
             {{-- Review Modal --}}
             @include('components.dashboard.review-modal')
         </div>

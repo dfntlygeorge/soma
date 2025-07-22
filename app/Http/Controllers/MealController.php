@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MealHelper;
+use App\Helpers\StreakHelper;
 use App\Models\Meal;
 use App\Models\SavedMeal;
 use App\Services\GeminiService;
@@ -44,7 +45,8 @@ class MealController extends Controller
             'carbs' => 'required|numeric',
             'fat' => 'required|numeric',
         ]);
-        $user_id = auth()->user()->id;
+        $user = auth()->user();
+        $user_id = $user->id;
 
         Meal::create([
             'user_id' => $user_id,
@@ -56,6 +58,8 @@ class MealController extends Controller
             'fat' => $data['fat'],
             'date' => now(),
         ]);
+
+        StreakHelper::updateUserStreak($user);
 
         return redirect()->route(
             'dashboard'

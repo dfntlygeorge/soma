@@ -7,7 +7,8 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-100 mb-2">Meal History</h1>
-                        <p class="text-gray-400">Review your past meals and nutrition data</p>
+                        <p class="text-gray-400">I remember it all too well... every meal I logged while waiting for your
+                            reply.</p>
                     </div>
                     <div class="text-olive-400">
                         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
