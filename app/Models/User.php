@@ -20,6 +20,7 @@ use Illuminate\Notifications\Notifiable;
  * @property \Illuminate\Support\Carbon|null $last_logged_at
  * @property int $longest_streak
  * @property array|null $earned_badges
+ * @property int $exp
  */
 
 class User extends Authenticatable
@@ -51,6 +52,7 @@ class User extends Authenticatable
         'last_logged_at',
         'longest_streak',
         'earned_badges',
+        'exp',
     ];
 
     /**

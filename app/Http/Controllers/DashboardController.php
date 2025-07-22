@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RankHelper;
 use App\Models\Meal;
 use App\Models\User;
 use Carbon\Carbon;
@@ -67,6 +68,7 @@ class DashboardController extends Controller
         $nextMilestone = null;
         $milestoneProgress = 0;
 
+
         foreach (array_keys($milestones) as $milestone) {
             $badgeKey = "{$milestone}_day";
             if (!in_array($badgeKey, $earned)) {
@@ -75,7 +77,10 @@ class DashboardController extends Controller
                 break;
             }
         }
-
+        $exp = $user->exp;
+        $rankInfo = RankHelper::getRankFromExp($exp);
+        $rankNextInfo = RankHelper::getNextRankInfo($exp);
+        $rankProgressPercent = RankHelper::getRankProgressPercent($exp);
 
         return view("dashboard.index", compact(
             'user',
@@ -87,7 +92,10 @@ class DashboardController extends Controller
             'milestones',
             'earned',
             'nextMilestone',
-            'milestoneProgress'
+            'milestoneProgress',
+            'rankInfo',
+            'rankNextInfo',
+            'rankProgressPercent',
         ));
     }
 }

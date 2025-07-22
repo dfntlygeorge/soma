@@ -10,11 +10,59 @@
                         d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48L12 4.5l.76-.74z" />
                 </svg>
             </div>
-            <h2 class="text-base font-semibold text-gray-100">Streak Progress</h2>
+            <h2 class="text-base font-semibold text-gray-100">Progress & Rank</h2>
         </div>
         <div
             class="bg-gradient-to-r from-olive-500 to-olive-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
             🔥 {{ $streak }} Days
+        </div>
+    </div>
+
+    {{-- Current Rank Display --}}
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-700 rounded-lg p-3 mb-4 border border-indigo-500">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <div
+                    class="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center mr-3 shadow-lg p-1">
+                    <img src="{{ asset('rank_' . strtolower($rankInfo['name']) . '.png') }}"
+                        alt="{{ $rankInfo['name'] }} Rank" class="w-8 h-8 object-contain">
+
+                </div>
+                <div>
+                    <div class="text-lg font-bold text-white">{{ $rankInfo['name'] }}</div>
+                    <div class="text-xs text-indigo-200">{{ $rankInfo['description'] }}
+                    </div>
+                </div>
+            </div>
+            <div class="text-right group relative">
+                <div class="text-sm font-semibold text-cyan-200 cursor-help">
+                    {{ $user->exp }}{{ $rankNextInfo['next_threshold'] ? ' / ' . $rankNextInfo['next_threshold'] : '' }}
+                    PP
+                </div>
+                <div class="text-xs text-indigo-300">
+                    @if ($rankNextInfo['next_rank'])
+                        {{ $rankNextInfo['exp_needed'] }} PP to {{ $rankNextInfo['next_rank'] }}
+                    @else
+                        Max rank achieved 💯
+                    @endif
+                </div>
+
+                <!-- Tooltip -->
+                <div
+                    class="absolute right-0 -top-6 w-max px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    PP = Pogi Points 😎
+                </div>
+            </div>
+
+
+        </div>
+
+        {{-- Rank Progress Bar --}}
+        <div class="mt-3">
+            <div class="w-full bg-indigo-800/50 rounded-full h-2">
+                <div class="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 rounded-full transition-all duration-500 shadow-sm"
+                    style="width: {{ $rankProgressPercent }}%"></div>
+            </div>
         </div>
     </div>
 

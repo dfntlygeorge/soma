@@ -61,6 +61,8 @@ class MealController extends Controller
 
         StreakHelper::updateUserStreak($user);
 
+        $user->increment('exp', 20);
+
         return redirect()->route(
             'dashboard'
         )->with('success', 'Meal logged successfully!');
