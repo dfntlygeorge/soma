@@ -19,7 +19,8 @@
                 </div>
             </div>
             {{-- Weekly Summary Component --}}
-            <x-meals.weekly-summary :weekRange="$weekRange" :averageCalories="$averageCalories" :averageProtein="$averageProtein" :chart="$chart" />
+            <x-meals.weekly-summary :weekRange="$weekRange" :averageCalories="$averageCalories" :averageProtein="$averageProtein" :chart="$chart"
+                :canGoToPreviousWeek="$canGoToPreviousWeek" :canGoToNextWeek="$canGoToNextWeek" :weekOffset="$weekOffset" />
 
             {{-- Daily History Section Component --}}
             <x-meals.daily-history :dailyMealData="$dailyMealData" :canLoadMore="$canLoadMore" :nextDays="$nextDays" :days="$days" />

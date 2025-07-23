@@ -13,7 +13,7 @@
                     </a>
                 </div>
                 <h1 class="text-3xl font-bold text-gray-100 mb-2">My Pantry</h1>
-                <p class="text-gray-400">Add what you currently have in your kitchen</p>
+                <p class="text-gray-400">Keep it updated, always. Parang ikaw sa ka-situationship mo 😔</p>
             </div>
 
             {{-- Add Item Section --}}

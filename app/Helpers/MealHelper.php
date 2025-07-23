@@ -229,4 +229,9 @@ class MealHelper
 
         return $dailyData;
     }
+
+    public static function getWeekRange($startOfWeek, $endOfWeek)
+    {
+        return $startOfWeek->format('M j') . ' - ' . $endOfWeek->format('M j, Y');
+    }
 }
