@@ -31,13 +31,13 @@ class EditTemplateController extends Controller
         );
 
         // Redirect back or to another page with success
-        return redirect()->route('meal-templates.index')->with('success', 'Meal template updated successfully.');
+        return redirect()->route('meals.templates.index')->with('success', 'Meal template updated successfully.');
     }
     public function destroy(SavedMeal $meal_template)
     {
         $meal_template->delete();
 
-        return redirect()->route('meal-templates.index')->with('success', 'Meal template deleted successfully.');
+        return redirect()->route('meals.templates.index')->with('success', 'Meal template deleted successfully.');
     }
 
 

@@ -39,16 +39,8 @@ class MealHelper
      * @param \Illuminate\Support\Collection $meals
      * @return array
      */
-    public static function calculateDailyAverages($meals)
+    public static function calculateDailyAverages($weeklyMeals)
     {
-
-        // Get current week's meals (Monday to Sunday)
-        $startOfWeek = now()->startOfWeek();
-        $endOfWeek = now()->endOfWeek();
-        $weeklyMeals = auth()->user()->meals()
-            ->whereBetween('date', [$startOfWeek, $endOfWeek])
-            ->orderBy('date')
-            ->get();
         $dailySums = self::getDailySums($weeklyMeals);
 
         if ($dailySums->isEmpty()) {

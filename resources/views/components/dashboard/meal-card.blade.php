@@ -57,7 +57,7 @@
                                 Create template
                             </button>
                         @else
-                            <a href="{{ route('meal-templates.create', ['meal_id' => $meal->id]) }}"
+                            <a href="{{ route('meals.templates.create', ['meal_id' => $meal->id]) }}"
                                 class="w-full flex items-center px-3 py-1.5 text-xs text-gray-300 hover:bg-gray-600 hover:text-white transition-colors duration-150 text-left">
                                 <svg class="w-3 h-3 mr-2 text-blue-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -143,11 +143,11 @@
         <p class="text-sm text-gray-300 mb-4">Would you like to create a new template or update the existing one?</p>
 
         <div class="flex gap-2">
-            <a href="{{ route('meal-templates.create', ['meal_id' => $meal->id]) }}"
+            <a href="{{ route('meals.templates.create', ['meal_id' => $meal->id]) }}"
                 class="flex-1 text-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
                 Create New
             </a>
-            <a href="{{ route('meal-templates.edit', ['meal_template_id' => $meal->saved_meal_id]) }}"
+            <a href="{{ route('meals.templates.edit', ['meal_template_id' => $meal->saved_meal_id]) }}"
                 class="flex-1 text-center px-3 py-2 bg-olive-600 hover:bg-olive-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
                 Update Existing
             </a>

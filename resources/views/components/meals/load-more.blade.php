@@ -1,7 +1,7 @@
 @props(['canLoadMore', 'nextDays', 'days', 'dailyMealData'])
 
 @if ($canLoadMore)
-    <form action="{{ route('meals.history') }}" method="GET">
+    <form action="{{ route('meals.history.index') }}" method="GET">
         <div class="text-center py-6">
             <input type="hidden" name="days" value="{{ $nextDays }}">
             <button type="submit"

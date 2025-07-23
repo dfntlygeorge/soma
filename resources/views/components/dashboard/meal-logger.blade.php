@@ -42,7 +42,7 @@
             </button>
 
             {{-- Use Template Button --}}
-            <a href="{{ route('meal-templates.index') }}"
+            <a href="{{ route('meals.templates.index') }}"
                 class="flex-1 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 focus:ring-2 focus:ring-gray-500 flex items-center justify-center">
                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

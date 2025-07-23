@@ -15,10 +15,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('meals.history')" :active="request()->routeIs('meals.history')">
+                    <x-nav-link :href="route('meals.history.index')" :active="request()->routeIs('meals.history.index')">
                         {{ __('History') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('meal-templates.index')" :active="request()->routeIs('meal-templates.index')">
+                    <x-nav-link :href="route('meals.templates.index')" :active="request()->routeIs('meals.templates.index')">
                         {{ __('Templates') }}
                     </x-nav-link>
                     <x-nav-link :href="route('ingredients.index')" :active="request()->routeIs('ingredients.index')">
@@ -94,7 +94,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('meals.history')" :active="request()->routeIs('meals.history')">
+            <x-responsive-nav-link :href="route('meals.history.index')" :active="request()->routeIs('meals.history.index')">
                 {{ __('History') }}
             </x-responsive-nav-link>
         </div>

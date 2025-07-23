@@ -17,7 +17,8 @@
 
                 <!-- Template Edit Form -->
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
-                    <form action="{{ route('meal-templates.update', $meal_template) }}" method="POST" class="space-y-6">
+                    <form action="{{ route('meals.templates.update', $meal_template) }}" method="POST"
+                        class="space-y-6">
                         @csrf
                         @method('PUT')
 
@@ -118,7 +119,7 @@
                         <!-- Action Buttons -->
                         <div class="flex items-center justify-between pt-6 border-t border-gray-700">
                             <div class="flex space-x-3">
-                                <a href="{{ route('meal-templates.index') }}"
+                                <a href="{{ route('meals.templates.index') }}"
                                     class="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-gray-100 font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500">
                                     Cancel
                                 </a>
@@ -138,7 +139,7 @@
                     </form>
 
                     <!-- Hidden Delete Form -->
-                    <form id="delete-form" action="{{ route('meal-templates.destroy', $meal_template) }}"
+                    <form id="delete-form" action="{{ route('meals.templates.destroy', $meal_template) }}"
                         method="POST" class="hidden">
                         @csrf
                         @method('DELETE')

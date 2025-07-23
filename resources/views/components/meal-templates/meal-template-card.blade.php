@@ -19,7 +19,7 @@
                 class="absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-10 border border-gray-600">
 
                 {{-- Edit Action --}}
-                <a href="{{ route('meal-templates.edit', ['meal_template_id' => $meal->id]) }}"
+                <a href="{{ route('meals.templates.edit', ['meal_template_id' => $meal->id]) }}"
                     class="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-600 hover:text-white transition-colors duration-150">
                     <svg class="w-4 h-4 mr-3 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -41,7 +41,7 @@
                     </button>
                 </form>
                 {{-- Delete Action --}}
-                <form method="POST" action="{{ route('meal-templates.destroy', $meal->id) }}" class="block">
+                <form method="POST" action="{{ route('meals.templates.destroy', $meal->id) }}" class="block">
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('Are you sure you want to delete this template?')"

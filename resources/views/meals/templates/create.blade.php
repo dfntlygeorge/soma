@@ -16,7 +16,7 @@
 
                 <!-- Template Form -->
                 <div class="bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
-                    <form action="{{ route('meal-templates.store') }}" method="POST" class="space-y-6">
+                    <form action="{{ route('meals.templates.store') }}" method="POST" class="space-y-6">
                         @csrf
                         <input type="hidden" name="meal_id" value="{{ $meal->id }}">
 

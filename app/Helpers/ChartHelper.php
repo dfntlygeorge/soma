@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Helpers;
 
 use Carbon\Carbon;
 use IcehouseVentures\LaravelChartjs\Facades\Chartjs;
-use App\Helpers\MealHelper; // Add this import
 use Illuminate\Database\Eloquent\Collection;
 
-class ChartService
+class ChartHelper
 {
-    public function buildCaloriesAndProteinsChart(Collection $meals, Carbon $startDate, Carbon $endDate)
+    public static function buildCaloriesAndProteinsChart(Collection $meals, Carbon $startDate, Carbon $endDate)
     {
         // Get daily calories and proteins data (0s for missing dates)
         $dailyCalories = MealHelper::getDailyCaloriesForRange($meals, $startDate, $endDate);

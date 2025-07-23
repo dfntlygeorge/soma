@@ -5,7 +5,6 @@ use App\Models\Meal;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('meals')->name('meals.')->middleware('auth')->group(function () {
-    Route::get('/history', [MealController::class, 'history'])->name('history'); // logged meals history page
     Route::post('/review', [MealController::class, 'analyze'])->name('review');
     Route::post('/confirm', [MealController::class, 'store'])->name('confirm');
     // meal template

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ChartHelper;
 use App\Helpers\MealHelper;
 use App\Helpers\StreakHelper;
 use App\Models\Meal;
@@ -9,8 +10,6 @@ use App\Models\SavedMeal;
 use App\Services\GeminiService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Services\ChartService;
 
 class MealController extends Controller
 {
@@ -103,19 +102,28 @@ class MealController extends Controller
     }
 
 
-    public function history(ChartService $chartService, Request $request)
+    public function history(Request $request)
     {
         // Get days parameter from URL (default 3, max 14)
         $days = min((int) $request->get('days', 3), 14);
 
-        // Get user's meals
-        $meals = auth()->user()->meals()->get();
+        // Fetch all meals once
+        $meals = auth()->user()->meals()->orderBy('date')->get();
+
+        // Define current week's date range
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        // Filter weekly meals from the full collection
+        $weeklyMeals = $meals->filter(function ($meal) use ($startOfWeek, $endOfWeek) {
+            return $meal->date >= $startOfWeek && $meal->date <= $endOfWeek;
+        });
 
         // Calculate daily averages using helper function, calculate averages of the meals within a week.
-        $averages = MealHelper::calculateDailyAverages($meals);
+        $averages = MealHelper::calculateDailyAverages($weeklyMeals);
 
         // Get chart data
-        $chart = $chartService->weeklyCaloriesChart();
+        $chart = ChartHelper::buildCaloriesAndProteinsChart($weeklyMeals, $startOfWeek, $endOfWeek);
 
         // Get formatted current week range
         $weekRange = MealHelper::getCurrentWeekRange();

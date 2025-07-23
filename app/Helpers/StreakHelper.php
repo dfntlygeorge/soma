@@ -18,11 +18,12 @@ class StreakHelper
             return;
         }
 
-        if ($user->last_logged_at?->equalTo($yesterday)) {
+        if ($user->last_logged_at?->toDateString() === $yesterday->toDateString()) {
             $user->streak += 1;
         } else {
             $user->streak = 1;
         }
+
 
         $user->last_logged_at = $today;
 

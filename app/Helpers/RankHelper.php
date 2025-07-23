@@ -23,7 +23,7 @@ class RankHelper
             ],
             $exp < 1000    => [
                 'name' => 'Gold',
-                'description' => 'Mahal ka na ng barkada ko, pero ‘di pa ako sure.',
+                'description' => 'Mahal ka na ng barkada ko, pero \'di pa ako sure.',
             ],
             $exp < 1500    => [
                 'name' => 'Platinum',
@@ -103,8 +103,7 @@ class RankHelper
 
         $earned = $exp - $currentThreshold;
         $range = $nextThreshold - $currentThreshold;
-
-        $percent = ($range > 0) ? floor(($earned / $range) * 100) : 0;
+        $percent = ($range > 0) ? (int) floor(($earned / $range) * 100) : 0;
 
         return max(0, min($percent, 100)); // Clamp between 0–100
     }
