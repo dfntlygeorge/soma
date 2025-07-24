@@ -7,10 +7,10 @@ use App\Http\Middleware\EnsureUserIsOnboarded;
 use Illuminate\Support\Facades\Route;
 
 // returns dashboard page with user, macros data.
-Route::get("/dashboard", [DashboardController::class, "index"])->middleware(['auth', 'verified', EnsureUserIsOnboarded::class])->name("dashboard");
-
-Route::get("/macros/edit", [MacroController::class, 'show'])->name('macros.edit');
-Route::put("/macros/edit", [MacroController::class, 'update'])->name('macros.update_macros');
+Route::get("/dashboard", [DashboardController::class, "index"])->middleware(['auth', EnsureUserIsOnboarded::class])->name("dashboard");
+Route::redirect('/', '/dashboard');
+Route::get("/macros/edit", [MacroController::class, 'show'])->middleware(['auth'])->name('macros.edit');
+Route::put("/macros/edit", [MacroController::class, 'update'])->middleware(['auth'])->name('macros.update_macros');
 
 Route::resource('ingredients', IngredientController::class)->middleware('auth');
 
