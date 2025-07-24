@@ -15,6 +15,7 @@ class StreakHelper
         $alreadyLoggedToday = $user->meals()->whereDate('created_at', $today)->exists();
 
         if ($alreadyLoggedToday) {
+            // dd("ALREADY LOGGED TODAY IS CALLED");
             return;
         }
 

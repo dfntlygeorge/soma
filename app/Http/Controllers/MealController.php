@@ -46,6 +46,7 @@ class MealController extends Controller
         ]);
         $user = auth()->user();
         $user_id = $user->id;
+        StreakHelper::updateUserStreak($user);
 
         Meal::create([
             'user_id' => $user_id,
@@ -55,10 +56,9 @@ class MealController extends Controller
             'protein' => $data['protein'],
             'carbs' => $data['carbs'],
             'fat' => $data['fat'],
+
             'date' => now(),
         ]);
-
-        StreakHelper::updateUserStreak($user);
 
         $user->increment('exp', 20);
 
