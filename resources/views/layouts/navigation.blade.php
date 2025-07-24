@@ -15,16 +15,16 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('meals.history.index')" :active="request()->routeIs('meals.history.index')">
+                    <x-nav-link :href="route('meals.history.index')" :active="request()->routeIs('meals.history.*')">
                         {{ __('History') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('meals.templates.index')" :active="request()->routeIs('meals.templates.index')">
+                    <x-nav-link :href="route('meals.templates.index')" :active="request()->routeIs('meals.templates.*')">
                         {{ __('Templates') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('ingredients.index')" :active="request()->routeIs('ingredients.index')">
+                    <x-nav-link :href="route('ingredients.index')" :active="request()->routeIs('ingredients.*')">
                         {{ __('Pantry ') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('charmy.index')" :active="request()->routeIs('charmy.index')">
+                    <x-nav-link :href="route('charmy.index')" :active="request()->routeIs('charmy.*')">
                         {{ __('Charmy ') }}
                     </x-nav-link>
                 </div>
