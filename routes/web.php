@@ -14,6 +14,14 @@ Route::put("/macros/edit", [MacroController::class, 'update'])->middleware(['aut
 
 Route::resource('ingredients', IngredientController::class)->middleware('auth');
 
+
+Route::get('/rate-limit-exceeded', function () {
+    $feature = session('feature', 'this feature');
+    $limit = session('limit', 'the daily limit');
+
+    return view('rate-limit.exceeded', compact('feature', 'limit'));
+})->name('rate-limit-exceeded')->middleware('auth');
+
 require __DIR__ . '/auth.php';
 require __DIR__ . '/profile.php';
 require __DIR__ . '/meals_templates.php';

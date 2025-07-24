@@ -10,6 +10,7 @@ use App\Models\SavedMeal;
 use App\Services\GeminiService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 
 class MealController extends Controller
 {
@@ -21,14 +22,23 @@ class MealController extends Controller
 
     public function analyze(Request $request)
     {
-
         $request->validate([
             'description' => 'required|string|max:400',
         ]);
 
+        // Rate limiting check
+        $key = 'analyze_' . auth()->id();
+
+        if (RateLimiter::tooManyAttempts($key, 10)) {
+            return redirect()->route('rate-limit-exceeded')
+                ->with('feature', 'Meal Analysis')
+                ->with('limit', '10 times per day');
+        }
+
+        // Increment the rate limiter
+        RateLimiter::hit($key, 86400); // 86400 seconds = 24 hours
+
         $description = $request->input('description');
-
-
         $macros = $this->geminiService->analyzeMeal($description);
 
         return redirect()->route('dashboard')->with(['review_macros' => $macros, 'review_description' => $description]);
