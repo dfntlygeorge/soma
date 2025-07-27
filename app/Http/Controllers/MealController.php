@@ -26,17 +26,17 @@ class MealController extends Controller
             'description' => 'required|string|max:400',
         ]);
 
-        // Rate limiting check
-        $key = 'analyze_' . auth()->id();
+        // // Rate limiting check
+        // $key = 'analyze_' . auth()->id();
 
-        if (RateLimiter::tooManyAttempts($key, 10)) {
-            return redirect()->route('rate-limit-exceeded')
-                ->with('feature', 'Meal Analysis')
-                ->with('limit', '10 times per day');
-        }
+        // if (RateLimiter::tooManyAttempts($key, 10)) {
+        //     return redirect()->route('rate-limit-exceeded')
+        //         ->with('feature', 'Meal Analysis')
+        //         ->with('limit', '10 times per day');
+        // }
 
-        // Increment the rate limiter
-        RateLimiter::hit($key, 86400); // 86400 seconds = 24 hours
+        // // Increment the rate limiter
+        // RateLimiter::hit($key, 86400); // 86400 seconds = 24 hours
 
         $description = $request->input('description');
         $macros = $this->geminiService->analyzeMeal($description);

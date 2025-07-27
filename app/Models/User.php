@@ -97,4 +97,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ingredients::class);
     }
+
+    public function cuttingProgress()
+    {
+        return $this->hasMany(CuttingProgress::class);
+    }
 }

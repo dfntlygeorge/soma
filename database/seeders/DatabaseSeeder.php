@@ -2,14 +2,9 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
-use App\Models\SavedMeal;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+use App\Models\CuttingProgress;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,16 +13,30 @@ class DatabaseSeeder extends Seeder
    */
   public function run(): void
   {
-    // Update your user (assuming ID = 1)
-    $user = User::find(2); // or use whatever ID your account is
-
-    if ($user) {
-      $user->streak = 4;
-      $user->longest_streak = max($user->longest_streak, 4); // keep max
-      $user->last_logged_at = Carbon::now()->startOfDay();
-      $user->earned_badges = ['3_day']; // Optional if earned
-
-      $user->save();
-    }
+    CuttingProgress::updateOrCreate(
+      ['user_id' => 2], // Find by this
+      [
+        'started_at' => Carbon::create(2025, 7, 19),
+        'current_weight' => 76.0,
+        'start_weight' => 78.0,
+        'goal_weight' => 65.0,
+        'duration_days' => 130,
+        'milestones' => json_encode([
+          [
+            'label' => '1kg Lost',
+            'amount' => 1,
+            'achieved_at' => '2025-07-20',
+            'icon' => '🏆',
+          ],
+          [
+            'label' => '2kg Lost',
+            'amount' => 2,
+            'achieved_at' => '2025-07-24',
+            'icon' => '💪',
+          ]
+        ]),
+        'active' => true,
+      ]
+    );
   }
 }
