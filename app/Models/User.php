@@ -102,4 +102,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(CuttingProgress::class);
     }
+    public function weight_logs()
+    {
+        return $this->hasMany(WeightLog::class);
+    }
 }

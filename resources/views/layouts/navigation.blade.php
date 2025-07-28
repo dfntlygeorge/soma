@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('charmy.index')" :active="request()->routeIs('charmy.*')">
                         {{ __('Charmy ') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('weight-tracker.show')" :active="request()->routeIs('weight-tracker.*')">
+                        {{ __('Baliw ') }}
+                    </x-nav-link>
                 </div>
             </div>
 

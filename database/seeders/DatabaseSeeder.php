@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\WeightLog;
 use App\Models\CuttingProgress;
 use Carbon\Carbon;
 
@@ -13,30 +15,17 @@ class DatabaseSeeder extends Seeder
    */
   public function run(): void
   {
-    CuttingProgress::updateOrCreate(
-      ['user_id' => 2], // Find by this
-      [
-        'started_at' => Carbon::create(2025, 7, 19),
-        'current_weight' => 76.0,
-        'start_weight' => 78.0,
-        'goal_weight' => 65.0,
-        'duration_days' => 130,
-        'milestones' => json_encode([
-          [
-            'label' => '1kg Lost',
-            'amount' => 1,
-            'achieved_at' => '2025-07-20',
-            'icon' => '🏆',
-          ],
-          [
-            'label' => '2kg Lost',
-            'amount' => 2,
-            'achieved_at' => '2025-07-24',
-            'icon' => '💪',
-          ]
-        ]),
-        'active' => true,
-      ]
-    );
+    $user = User::find(2);
+
+    if ($user) {
+      $user->update([
+        'calorie_deficit' => 860,
+        'maintaining_calorie' => 2660,
+      ]);
+
+      echo "✅ Updated user with ID 2: 860 kcal deficit from 2660 maintenance.\n";
+    } else {
+      echo "⚠️ User with ID 2 not found. No changes made.\n";
+    }
   }
 }

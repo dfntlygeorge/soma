@@ -34,7 +34,6 @@ class MealHistoryController extends Controller
 
         // Get chart data
         $chart = ChartHelper::buildCaloriesAndProteinsChart($weeklyMeals, $startOfWeek, $endOfWeek);
-
         // Get formatted week range
         $weekRange = MealHelper::getWeekRange($startOfWeek, $endOfWeek);
 

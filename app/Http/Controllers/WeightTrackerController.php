@@ -2,61 +2,91 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ChartHelper;
+use App\Helpers\WeightTrackerHelper;
 use App\Models\CuttingProgress;
+use App\Models\WeightLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class WeightTrackerController extends Controller
 {
 
-    // Update your controller method
     public function show(Request $request)
     {
         $user = auth()->user();
         $cuttingProgressInfo = CuttingProgress::where('user_id', $user->id)->first();
 
-        $durationDays = $cuttingProgressInfo->duration_days;
-        $startWeight = $cuttingProgressInfo->start_weight;
-        $goalWeight = $cuttingProgressInfo->goal_weight;
-        $currentWeight = $cuttingProgressInfo->current_weight ?? $startWeight; // Fallback if null
+        $metrics = WeightTrackerHelper::calculateMetrics($cuttingProgressInfo);
 
-        $startDate = Carbon::parse($cuttingProgressInfo->started_at)->startOfDay();
-        $today = Carbon::now()->startOfDay();
-        $endDate = $startDate->copy()->addDays($durationDays - 1);
+        // Process milestones using the helper
+        $milestones = WeightTrackerHelper::processMilestones(
+            $cuttingProgressInfo->milestones,
+            $metrics
+        );
 
-        $currentDay = $startDate->diffInDays($today) + 1;
-        $currentDay = min($currentDay, $durationDays);
+        // Get stats data for the cards
+        $statsData = WeightTrackerHelper::getStatsData($user->id, $metrics);
 
-        // Calculate progress metrics
-        $totalWeightToLose = $startWeight - $goalWeight;
-        $weightLost = $startWeight - $currentWeight;
-        $weightRemaining = $currentWeight - $goalWeight;
-        $daysLeft = max(0, $durationDays - $currentDay);
+        // Fetch weight logs for the table
+        $weightLogs = WeightLog::where('user_id', $user->id)
+            ->orderBy('date', 'desc')
+            ->limit(10)
+            ->get();
 
-        // Calculate percentages
-        $weightProgressPercent = $totalWeightToLose > 0 ? min(100, ($weightLost / $totalWeightToLose) * 100) : 0;
-        $timeProgressPercent = ($currentDay / $durationDays) * 100;
+        // Format weight logs data
+        $formattedWeightLogs = WeightTrackerHelper::formatWeightLogsForTable($weightLogs);
 
-        // Calculate required rate (kg per week) for remaining period
-        $weeksLeft = $daysLeft / 7;
-        $rateNeeded = $weeksLeft > 0 ? $weightRemaining / $weeksLeft : 0;
+        // Build weight progress chart
+        $weightChart = ChartHelper::buildWeightProgressChart($user->id, $metrics['goalWeight']);
+        // dd($weightChart);
 
-        return view('weight-tracker.index', compact(
-            'cuttingProgressInfo',
-            'durationDays',
-            'startWeight',
-            'goalWeight',
-            'currentWeight',
-            'currentDay',
-            'startDate',
-            'endDate',
-            'totalWeightToLose',
-            'weightLost',
-            'weightRemaining',
-            'daysLeft',
-            'weightProgressPercent',
-            'timeProgressPercent',
-            'rateNeeded'
-        ));
+        return view('weight-tracker.index', array_merge([
+            'milestones' => $milestones,
+            'statsData' => $statsData,
+            'weightLogs' => $formattedWeightLogs,
+            'totalEntries' => WeightLog::where('user_id', $user->id)->count(),
+            'chart' => $weightChart
+        ], $metrics));
+    }
+
+    public function store(Request $request)
+    {
+        $user = auth()->user();
+
+        // Validate the request
+        $validated = $request->validate([
+            'weight' => 'required|numeric|min:0|max:1000',
+            'date' => 'required|date|before_or_equal:today',
+            'notes' => 'nullable|string|max:1000'
+        ]);
+
+        // Get the latest weight log to calculate changes
+        $latestLog = $user->weight_logs()->latest('date')->first();
+
+        $change = null;
+        $totalLost = 0;
+
+        if ($latestLog) {
+            // Calculate change from previous entry
+            $change = $validated['weight'] - $latestLog->weight;
+
+            // Calculate total lost from the first entry
+            $firstLog = $user->weight_logs()->oldest('date')->first();
+            if ($firstLog) {
+                $totalLost = $firstLog->weight - $validated['weight'];
+            }
+        }
+
+        // Create the new weight log
+        $weightLog = $user->weight_logs()->create([
+            'date' => $validated['date'],
+            'weight' => $validated['weight'],
+            'change' => $change,
+            'total_lost' => $totalLost,
+            'notes' => $validated['notes']
+        ]);
+
+        return redirect()->back()->with('success', 'Weight logged successfully!');
     }
 }

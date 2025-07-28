@@ -8,11 +8,11 @@
             <h3 class="text-lg font-semibold text-gray-300">Current Weight</h3>
             <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
         </div>
-        <div class="text-3xl font-bold text-white mb-2">68.5 kg</div>
+        <div class="text-3xl font-bold text-white mb-2">{{ $statsData['current_weight']['weight'] }} kg</div>
         <div class="flex items-center text-sm">
-            <span class="text-red-400">↓ 7.5kg from start</span>
+            <span class="text-red-400">↓ {{ $statsData['current_weight']['total_lost'] }}kg from start</span>
         </div>
-        <div class="text-xs text-gray-500 mt-1">Last logged: Jul 27, 2025</div>
+        <div class="text-xs text-gray-500 mt-1">Last logged: {{ $statsData['current_weight']['last_logged'] }}</div>
     </div>
 
     <!-- Goal Weight Card -->
@@ -21,9 +21,9 @@
             <h3 class="text-lg font-semibold text-gray-300">Goal Weight</h3>
             <div class="w-3 h-3 bg-green-500 rounded-full"></div>
         </div>
-        <div class="text-3xl font-bold text-white mb-2">65.0 kg</div>
-        <div class="text-sm text-gray-400">3.5 kg to go</div>
-        <div class="text-xs text-gray-500 mt-1">Est. 4-5 weeks</div>
+        <div class="text-3xl font-bold text-white mb-2">{{ $statsData['goal_weight']['goal_weight'] }} kg</div>
+        <div class="text-sm text-gray-400">{{ $statsData['goal_weight']['weight_remaining'] }} kg to go</div>
+        <div class="text-xs text-gray-500 mt-1">Est. {{ $statsData['goal_weight']['estimated_weeks'] }}</div>
     </div>
 
     <!-- Next Week Prediction -->
@@ -32,9 +32,11 @@
             <h3 class="text-lg font-semibold text-green-300">Next Week Prediction</h3>
             <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
         </div>
-        <div class="text-3xl font-bold text-white mb-2">68.0 kg</div>
-        <div class="text-sm text-green-400 mb-3">↓ 0.5kg predicted loss</div>
-        <div class="text-xs text-gray-400">Based on 500 kcal daily deficit</div>
-        <div class="mt-3 text-xs text-gray-500">Week of Aug 3 - Aug 10</div>
+        <div class="text-3xl font-bold text-white mb-2">{{ $statsData['prediction']['predicted_weight'] }} kg</div>
+        <div class="text-sm text-green-400 mb-3">↓ {{ $statsData['prediction']['predicted_loss'] }}kg predicted loss
+        </div>
+        <div class="text-xs text-gray-400">Based on {{ $statsData['prediction']['calorie_deficit'] }} kcal daily deficit
+        </div>
+        <div class="mt-3 text-xs text-gray-500">Week of {{ $statsData['prediction']['week_range'] }}</div>
     </div>
 </div>
