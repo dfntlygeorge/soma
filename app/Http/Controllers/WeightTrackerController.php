@@ -19,7 +19,7 @@ class WeightTrackerController extends Controller
         $cuttingProgressInfo = CuttingProgress::where('user_id', $user->id)->first();
 
         // If no cutting progress exists, show empty state
-        if (!false) {
+        if (!$cuttingProgressInfo) {
             return view('weight-tracker.empty-state');
         }
 
